@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
 import { PortfolioItem, MarketData } from "@/types";
+import { useRouter } from "expo-router"; // Import useRouter
 
 interface StockListProps {
   items: PortfolioItem[];
@@ -10,6 +11,7 @@ interface StockListProps {
 
 export function StockList({ items, marketData }: StockListProps) {
   const { t, numberFormatter, isRTL } = useContext(I18nContext);
+  const router = useRouter(); // Initialize useRouter
 
   const renderItem = ({ item }: { item: PortfolioItem }) => {
     const currentMarketData = marketData.find(
@@ -26,8 +28,12 @@ export function StockList({ items, marketData }: StockListProps) {
     const gainLossColor = gainLoss >= 0 ? "#28a745" : "#dc3545"; // Green for gain, red for loss
     const changeColor = currentMarketData && currentMarketData.change >= 0 ? "#28a745" : "#dc3545";
 
+    const navigateToStockDetail = () => {
+      router.push(`/(app)/stock/${item.instrument.symbol}`);
+    };
+
     return (
-      <View style={[styles.stockItem, isRTL && styles.rtlStockItem]}>
+      <TouchableOpacity onPress={navigateToStockDetail} style={[styles.stockItem, isRTL && styles.rtlStockItem]}>
         <View style={styles.stockInfo}>
           <Text style={styles.stockSymbol}>{item.instrument.symbol}</Text>
           <Text style={styles.stockName}>{item.instrument.name}</Text>
@@ -69,7 +75,7 @@ export function StockList({ items, marketData }: StockListProps) {
             </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -134,4 +140,3 @@ const styles = StyleSheet.create({
     color: "#888",
   },
 });
-

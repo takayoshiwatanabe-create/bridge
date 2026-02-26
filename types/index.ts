@@ -32,7 +32,7 @@ export interface MarketData {
   price: number;
   change: number;
   changePercent: number;
-  timestamp: Date; // Changed to Date to match DataSourceBadgeProps
+  timestamp: string; // Changed to string (ISO format) for easier serialization/deserialization
   dataSource: string;
   delayMinutes: number;
   // Add more market data fields like volume, high, low, etc.

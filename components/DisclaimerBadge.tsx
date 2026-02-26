@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
+import { I18nContext } from "@/i18n/I18nContext";
 
 export function DisclaimerBadge() {
-  const { t } = useContext(I18nContext); // Use useContext to get t
+  const { t } = useContext(I18nContext);
 
   return (
     <View style={styles.container}>
@@ -27,4 +27,3 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 });
-

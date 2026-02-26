@@ -4,10 +4,10 @@ import { AuthForm } from "@/components/auth/AuthForm";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
 import { Stack } from "expo-router";
 import { useContext } from "react";
-import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
+import { I18nContext } from "@/i18n/I18nContext";
 
 export default function LoginScreen() {
-  const { t } = useContext(I18nContext); // Use useContext to get t
+  const { t } = useContext(I18nContext);
 
   const handleLogin = (email: string, password: string) => {
     // Placeholder for login logic
@@ -48,4 +48,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-

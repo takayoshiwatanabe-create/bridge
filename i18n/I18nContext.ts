@@ -22,4 +22,3 @@ export const I18nContext = React.createContext<I18nContextType>({
     minute: "numeric",
   }), // Default formatter
 });
-

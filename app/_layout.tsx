@@ -16,6 +16,7 @@ function RootLayoutContent() {
         <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
         <Stack.Screen name="(app)/portfolio" options={{ title: t("portfolio.title") }} />
+        <Stack.Screen name="(app)/stock/[symbol]" options={{ title: t("stock_detail.title") }} />
         {/* Add other screens here as they are created */}
       </Stack>
     </View>

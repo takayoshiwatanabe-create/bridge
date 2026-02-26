@@ -1,26 +1,19 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
+import { I18nContext } from "@/i18n/I18nContext";
 
 interface DataSourceBadgeProps {
   source: string;
-  timestamp: Date;
+  timestamp: string; // Changed to string (ISO format)
   delayMinutes: number;
 }
 
 export function DataSourceBadge({ source, timestamp, delayMinutes }: DataSourceBadgeProps) {
-  const { t, lang } = useContext(I18nContext); // Use useContext to get t and lang
+  const { t, dateTimeFormatter } = useContext(I18nContext);
 
-  // Ensure the locale for toLocaleTimeString is consistent or derived from i18n
-  // Using the dynamically determined 'lang' for consistency.
-  // The spec example shows 'JST', but toLocaleTimeString will use local timezone.
-  // If JST is strictly required, timeZone: 'Asia/Tokyo' should be added.
-  // For now, we'll use local time and remove 'JST' from the translation key.
-  const formattedTime = timestamp.toLocaleTimeString(lang, {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  // Parse the ISO string back to a Date object for formatting
+  const dateObject = new Date(timestamp);
+  const formattedTime = dateTimeFormatter.format(dateObject);
   const delayText = delayMinutes > 0 ? t("common.delay_minutes", { minutes: delayMinutes }) : t("common.realtime");
 
   return (

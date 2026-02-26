@@ -55,4 +55,3 @@ export const isRTL = ["ar"].includes(lang);
 export const t = createTranslator(lang);
 export const numberFormatter = createNumberFormatter(lang);
 export const dateTimeFormatter = createDateTimeFormatter(lang);
-

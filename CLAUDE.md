@@ -103,6 +103,12 @@ Bridgeは投資家が直面する「データの断片化」と「意思決定�
 | WebSocket 更新遅延 | **≤ 2秒** | 実測値 |
 | 画面初期表示 (TTI) | **≤ 2秒** | Lighthouse |
 
+**Lighthouseスコア基準:**
+- Performance: ≥ 90
+- Accessibility: ≥ 95 (多言語・RTL対応を含む)
+- Best Practices: ≥ 90
+- SEO: ≥ 85
+
 ### 3.2 セキュリティ基準
 
 ```
@@ -126,7 +132,7 @@ SECURITY GRADE: Financial Institution Level
 ```
 必須ツールチェーン:
 ├── TypeScript strict mode (noImplicitAny: true)
-├── ESLint (React Native推奨 + カスタムルール)
+├── ESLint (Next.js推奨 + カスタムルール)
 ├── Prettier (フォーマット統一)
 ├── Husky + lint-staged (コミット前チェック)
 ├── Jest + React Testing Library (UT)
@@ -241,8 +247,8 @@ Priority 2 (P2): データ遅延 (SLA超過)
 # Bridge 設計仕様書 (Design Specification)
 
 **バージョン:** 1.0.0  
-**対象プラットフォーム:** Mobile (Expo SDK 52 + React Native 0.76.9)  
-**デプロイ先:** Expo Go / Standalone App (App Store, Google Play)
+**対象プラットフォーム:** Web (Next.js 15 + React 19)  
+**デプロイ先:** Vercel
 
 ---
 
@@ -256,31 +262,167 @@ Priority 2 (P2): データ遅延 (SLA超過)
 └───────────────────────────┬─────────────────────────────────────┘
                             │ HTTPS / WebSocket
 ┌───────────────────────────▼─────────────────────────────────────┐
-│                      Expo Go / Standalone App                   │
-│              (React Native + Expo Router + i18n)                │
+│                      Vercel Edge Network                        │
+│              (CDN + Edge Middleware + i18n Routing)             │
 └──────┬────────────────────┬────────────────────────────────────┘
        │                    │
 ┌──────▼──────┐    ┌────────▼────────────────────────────────────┐
-│  React Native App │    │       Backend API (e.g., AWS Lambda,  │
-│  (UI Components)  │    │       Firebase, or custom Node.js)    │
-│                   │    │       (Data Fetching, Auth, Logic)    │
-└───────────────────┘    └───────────┬───────────────────────────┘
-                                     │
-                                     │ HTTPS / GraphQL / REST
-                                     │
-┌────────────────────────────────────▼───────────────────────────┐
-│                 Data Sources (e.g., Quick API, etc.)            │
-└─────────────────────────────────────────────────────────────────┘
+│  Next.js 15 │
+│  (Frontend) │
+│             │
+│  - React 19 │
+│  - Tailwind │
+│  - i18n     │
+│  - Expo     │
+└──────┬──────┘    │
+       │           │ Server-Side Rendering (SSR) / API Routes
+       │           │
+┌──────▼───────────▼────────────────────────────────────────────┐
+│                  Bridge API Gateway (Next.js API Routes)      │
+│                  - Authentication (JWT, OAuth 2.0 PKCE)       │
+│                  - Rate Limiting                              │
+│                  - Data Validation                            │
+└───────────────────┬───────────────────────────────────────────┘
+                    │ HTTPS / gRPC
+┌───────────────────▼───────────────────────────────────────────┐
+│                  Logic Engine (Microservices)                 │
+│                  - Portfolio Calculation                      │
+│                  - Tax Simulation                             │
+│                  - Risk Analysis                              │
+│                  - Feature Flag Management                    │
+│                  - User Management                            │
+└───────────────────┬───────────────────────────────────────────┘
+                    │
+┌───────────────────▼───────────────────────────────────────────┐
+│                     Data Adapter Layer                        │
+│             (External API Integrations / DB Access)           │
+│             - Quick API (Market Data)                         │
+│             - Bloomberg API (Consensus, News)                 │
+│             - User Portfolio DB (PostgreSQL)                  │
+│             - User Profile DB (PostgreSQL)                    │
+│             - Feature Flag DB (PostgreSQL)                    │
+└───────────────────────────────────────────────────────────────┘
 ```
+
+### 1.2 データフロー (銘柄詳細画面)
+
+1.  **ユーザーリクエスト:** ユーザーがポートフォリオ画面から特定の銘柄を選択、または直接URLで銘柄詳細画面にアクセス (`/stock/[symbol]`)。
+2.  **Next.js ルーティング:** `app/(app)/stock/[symbol].tsx` がリクエストを処理。
+3.  **データ取得 (サーバーサイドまたはクライアントサイド):**
+    *   `[symbol]` パラメータを使用して、Logic EngineのAPIエンドポイント (`/api/stock/[symbol]`) を呼び出す。
+    *   APIはData Adapter Layerを通じて、Quick APIなどの外部データソースから以下の情報を取得する:
+        *   銘柄情報 (Instrument: シンボル、名称、取引所、通貨など)
+        *   リアルタイムまたは遅延市場データ (MarketData: 現在価格、変動額、変動率、タイムスタンプ、データソース、遅延時間)
+        *   企業情報 (CompanyInfo: 企業概要、セクター、業種、時価総額、PER、配当利回りなど)
+4.  **データ処理 (Logic Engine):** 取得した生データを整形し、Frontendが利用しやすい形式に変換。
+5.  **Frontend レンダリング:**
+    *   `StockDetailScreen` コンポーネントが、取得したデータと国際化された文字列 (`t()`) を使用してUIを構築。
+    *   `StockHeader` コンポーネントで銘柄の基本情報と現在の市場価格を表示。
+    *   `DataSourceBadge` コンポーネントでデータソースと遅延情報を表示 (必須)。
+    *   `StockDetails` コンポーネントで企業詳細情報を表示。
+    *   免責事項 (`DisclaimerBadge`) を画面下部に表示 (必須)。
+6.  **i18n対応:** すべての表示文字列は `@/i18n` モジュールを通じて翻訳される。数値・日付フォーマットも `Intl.NumberFormat` / `Intl.DateTimeFormat` を使用。RTL言語 (`ar`) の場合はレイアウトを自動調整。
+
+---
+
+## 第2章 UIコンポーネント仕様
+
+### 2.1 `app/(app)/stock/[symbol].tsx` (銘柄詳細画面)
+
+*   **目的:** 特定の金融銘柄の詳細情報を表示する。
+*   **ルーティング:** `expo-router` のダイナミックルーティング (`(app)/stock/[symbol]`) を使用。
+*   **構成要素:**
+    *   `Stack.Screen`: ヘッダーに銘柄名を表示。
+    *   `ScrollView`: コンテンツが画面に収まらない場合にスクロール可能にする。
+    *   `StockHeader`: 銘柄のシンボル、名称、取引所、現在の価格、変動、変動率を表示。
+    *   `DataSourceBadge`: `StockHeader` の直下、または価格情報の近くに配置し、データソース、更新時刻、遅延時間を表示。
+    *   チャート表示エリア (プレースホルダー): 将来的なチャート統合のための領域。
+    *   `StockDetails`: 企業概要、セクター、業種、時価総額、PER、配当利回りなどの詳細情報を表示。
+    *   `DisclaimerBadge`: 画面下部に免責事項を表示。
+*   **国際化:** すべての表示テキストは `t()` 関数を使用し、動的な値はプレースホルダー (`{{key}}`) で処理する。
+
+### 2.2 `components/stock/StockHeader.tsx` (銘柄ヘッダー)
+
+*   **目的:** 銘柄の主要な識別情報と最新の市場データを表示する。
+*   **Props:**
+    *   `instrument: Instrument` (銘柄の基本情報)
+    *   `marketData: MarketData` (現在の市場データ)
+*   **表示内容:**
+    *   銘柄シンボル (例: AAPL)
+    *   銘柄名称 (例: Apple Inc.)
+    *   取引所 (例: NASDAQ)
+    *   現在の価格と通貨 (例: 175.50 USD)
+    *   日中の変動額と変動率 (例: +2.50 (+1.45%))
+    *   `DataSourceBadge` を内部または隣接して配置し、データソースと遅延情報を表示。
+*   **スタイル:** 価格変動に応じて色を変更 (上昇: 緑、下降: 赤)。
+
+### 2.3 `components/stock/StockDetails.tsx` (企業詳細情報)
+
+*   **目的:** 銘柄に関連する詳細な企業情報（ファンダメンタルズ）を表示する。
+*   **Props:**
+    *   `companyInfo: { description: string; sector: string; industry: string; marketCap: number; peRatio: number; dividendYield: number; }` (企業情報)
+*   **表示内容:**
+    *   企業概要
+    *   セクター
+    *   業種
+    *   時価総額 (兆、億、百万単位でフォーマット)
+    *   PER (株価収益率)
+    *   配当利回り
+*   **国際化:** 数値は `Intl.NumberFormat` を使用してフォーマットする。
+
+### 2.4 `components/DataSourceBadge.tsx` (データソースバッジ)
+
+*   **目的:** データの出所、更新時刻、遅延情報を統一された形式で表示する。
+*   **Props:**
+    *   `source: string` (データソース名、例: Quick)
+    *   `timestamp: string` (データ更新時刻のISO文字列)
+    *   `delayMinutes: number` (データ遅延時間（分）)
+*   **表示内容:** `[データソース名] | [更新時刻] | [遅延表示]`
+    *   更新時刻は `Intl.DateTimeFormat` を使用してローカライズされた形式で表示。
+    *   遅延表示は `{{minutes}}分遅延` または `リアルタイム` の形式で表示。
+*   **配置:** 価格情報の近く、またはセクションヘッダーの近くに配置。
+
+### 2.5 `components/DisclaimerBadge.tsx` (免責事項バッジ)
+
+*   **目的:** 法的コンプライアンス要件に基づき、免責事項を明確に表示する。
+*   **Props:** なし
+*   **表示内容:** 「本アプリは投資助言ではありません。データは遅延する場合があります。」 (国際化対応)
+*   **配置:** 画面のフッターまたはコンテンツの最下部に固定で表示。
+
+---
+
+## 第3章 国際化 (i18n) 仕様
+
+*   **対応言語:** ja, en, zh, ko, es, fr, de, pt, ar, hi (10言語)
+*   **モジュール:** `@/i18n` を使用。
+*   **翻訳関数:** `t("key", { vars })` を使用し、ハードコードされた文字列は禁止。
+*   **RTL対応:** `ar` (アラビア語) の場合、`isRTL` フラグに基づいて `direction: "rtl"` スタイルを適用。
+*   **数値フォーマット:** `Intl.NumberFormat` を使用。
+*   **日付フォーマット:** `Intl.DateTimeFormat` を使用。
+*   **翻訳キーの命名規則:** `feature.sub_feature.key_name` (snake_case + ネスト構造)
+
+---
+
+## 第4章 データ構造 (types/index.ts)
+
+*   `Instrument`: 銘柄の基本情報 (`id`, `symbol`, `name`, `exchange`, `currency`)
+*   `MarketData`: 市場データ (`instrumentId`, `price`, `change`, `changePercent`, `timestamp` (ISO string), `dataSource`, `delayMinutes`)
+*   `PortfolioItem`: ポートフォリオ内の個別銘柄 (`instrument`, `quantity`, `averagePrice`)
+*   `PortfolioSummary`: ポートフォリオ全体の要約 (`totalValue`, `totalGainLoss`, `totalGainLossPercent`)
+*   `UserProfile`: ユーザー情報 (`id`, `email`, `firstName`, `lastName`, `language`, `isPremium`)
+*   `FeatureFlag`: 収益モデルに関連する機能フラグの型定義。
+*   `DataStatus`: データ取得の状態を示す型定義。
+
+---
 
 ## Development Instructions
 N/A
 
 ## Technical Stack
-- Expo SDK 52 + React Native 0.76.9 + React 18.3.1 + TypeScript (strict mode)
-- Styling: React Native StyleSheet (TailwindCSS/NativeWind can be integrated if needed, but not currently in package.json)
-- Jest + Jest-Expo for unit tests
-- Playwright for E2E tests (if targeting web build of Expo, or Appium/Detox for native)
+- Next.js 15 + React 19 + TypeScript (strict mode)
+- TailwindCSS 4
+- Vitest for unit tests
+- Playwright for E2E tests
 
 ## Code Standards
 - TypeScript strict mode, no `any`
@@ -296,3 +438,25 @@ N/A
 - Default language: ja (Japanese)
 - RTL support required for Arabic (ar)
 - Use isRTL flag from i18n module for layout adjustments
+```diff
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -231,7 +231,7 @@
+ *   **構成要素:**
+     *   `Stack.Screen`: ヘッダーに銘柄名を表示。
+     *   `ScrollView`: コンテンツが画面に収まらない場合にスクロール可能にする。
+-    *   `StockHeader`: 銘柄のシンボル、名称、取引所、現在の価格、変動、変動率を表示。
++    *   `StockHeader`: 銘柄のシンボル、名称、取引所、現在の価格、変動、変動率を表示。`DataSourceBadge` を内部に含む。
+     *   `DataSourceBadge`: `StockHeader` の直下、または価格情報の近くに配置し、データソース、更新時刻、遅延時間を表示。
+     *   チャート表示エリア (プレースホルダー): 将来的なチャート統合のための領域。
+     *   `StockDetails`: 企業概要、セクター、業種、時価総額、PER、配当利回りなどの詳細情報を表示。
+@@ -250,7 +250,7 @@
+     *   現在の価格と通貨 (例: 175.50 USD)
+     *   日中の変動額と変動率 (例: +2.50 (+1.45%))
+     *   `DataSourceBadge` を内部または隣接して配置し、データソースと遅延情報を表示。
+-*   **スタイル:** 価格変動に応じて色を変更 (上昇: 緑、下降: 赤)。
++*   **スタイル:** 価格変動に応じて色を変更 (上昇: 緑、下降: 赤)。`DataSourceBadge` は `StockHeader` の内部に配置される。
+ 
+ ### 2.3 `components/stock/StockDetails.tsx` (企業詳細情報)
+ 
+```

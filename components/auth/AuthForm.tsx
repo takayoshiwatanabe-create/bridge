@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
+import { I18nContext } from "@/i18n/I18nContext";
 
 interface AuthFormProps {
   type: "login" | "signup";
@@ -15,7 +15,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ type, onSubmit, onOAuthLogin }: AuthFormProps) {
-  const { t, isRTL } = useContext(I18nContext); // Use useContext to get t and isRTL
+  const { t, isRTL } = useContext(I18nContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -212,4 +212,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-

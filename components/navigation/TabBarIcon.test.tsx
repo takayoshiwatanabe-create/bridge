@@ -38,3 +38,4 @@ jest.mock('@expo/vector-icons', () => ({
     <mock-font-awesome name={name} color={color} size={size} testID="FontAwesomeIcon" />
   )),
 }));
+

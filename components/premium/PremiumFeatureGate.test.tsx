@@ -64,3 +64,4 @@ describe('PremiumFeatureGate', () => {
 
 // Helper component for testing children rendering
 const TestComponent = ({ text }: { text: string }) => <Text>{text}</Text>;
+

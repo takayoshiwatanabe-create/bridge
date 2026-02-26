@@ -168,3 +168,4 @@ describe('AuthForm', () => {
     expect(mockOnOAuthLogin).toHaveBeenCalledWith('Apple');
   });
 });
+

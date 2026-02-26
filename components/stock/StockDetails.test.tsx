@@ -90,3 +90,4 @@ describe('StockDetails', () => {
     expect(getByText('9,876.54万')).toBeTruthy();
   });
 });
+

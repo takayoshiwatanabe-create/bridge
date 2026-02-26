@@ -87,3 +87,4 @@ describe('LanguageSelector', () => {
     expect(queryByText('English').parent?.findByType('FontAwesome')).toBeFalsy();
   });
 });
+

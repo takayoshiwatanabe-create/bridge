@@ -69,3 +69,4 @@ describe('PortfolioSummary', () => {
     expect(getByText('0%').props.style.color).toBe('#28a745'); // Green for zero gain/loss
   });
 });
+

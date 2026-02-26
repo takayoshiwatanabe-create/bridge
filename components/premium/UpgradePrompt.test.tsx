@@ -57,3 +57,4 @@ describe('UpgradePrompt', () => {
   //   expect(mockPush).toHaveBeenCalledWith('/(app)/upgrade');
   // });
 });
+

@@ -73,3 +73,4 @@ const styles = StyleSheet.create({
     marginTop: 30, // Add some space above the disclaimer
   },
 });
+

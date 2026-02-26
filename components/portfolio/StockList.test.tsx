@@ -131,3 +131,4 @@ describe('StockList', () => {
     expect(getByText('ポートフォリオに銘柄がありません。')).toBeTruthy();
   });
 });
+

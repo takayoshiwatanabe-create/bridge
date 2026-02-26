@@ -29,3 +29,4 @@ describe('DisclaimerBadge', () => {
     expect(getByText('本アプリは投資助言ではありません')).toBeTruthy();
   });
 });
+

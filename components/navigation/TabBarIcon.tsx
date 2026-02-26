@@ -20,3 +20,4 @@ export function TabBarIcon({ name, color, isRTL }: TabBarIconProps) {
     </View>
   );
 }
+

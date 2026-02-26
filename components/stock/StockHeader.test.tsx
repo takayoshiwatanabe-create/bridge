@@ -83,3 +83,4 @@ describe('StockHeader', () => {
     expect(getByText('0 (0%)').props.style.color).toBe('#28a745'); // Green for zero change (or neutral)
   });
 });
+

@@ -12,6 +12,8 @@ export default function RootLayout() {
         <View style={[styles.container, isRTL && styles.rtlContainer]}>
           <Stack>
             <Stack.Screen name="index" options={{ title: "Bridge" }} />
+            <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
             {/* Add other screens here as they are created */}
           </Stack>
         </View>

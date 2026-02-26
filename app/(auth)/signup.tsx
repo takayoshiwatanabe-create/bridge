@@ -1,0 +1,47 @@
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { AuthForm } from "@/components/auth/AuthForm";
+import { DisclaimerBadge } from "@/components/DisclaimerBadge";
+import { t } from "@/i18n";
+import { Stack } from "expo-router";
+
+export default function SignupScreen() {
+  const handleSignup = (email: string, password: string) => {
+    // Placeholder for signup logic
+    console.log("Signup attempt:", { email, password });
+    // In a real app, this would call an API
+  };
+
+  const handleOAuthSignup = (provider: string) => {
+    // Placeholder for OAuth 2.0 PKCE flow
+    console.log("OAuth signup with:", provider);
+    // In a real app, this would initiate the OAuth flow
+  };
+
+  return (
+    <View style={styles.container}>
+      <Stack.Screen options={{ title: t("auth.signup.title") }} />
+      <AuthForm
+        type="signup"
+        onSubmit={handleSignup}
+        onOAuthLogin={handleOAuthSignup} // Reusing for signup, might be separate in future
+      />
+      <View style={styles.disclaimerContainer}>
+        <DisclaimerBadge />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  disclaimerContainer: {
+    marginTop: 20,
+  },
+});

@@ -1,5 +1,5 @@
 import React from "react";
-import { Language } from "./translations";
+import { Language, translations } from "./translations";
 
 interface I18nContextType {
   lang: Language;
@@ -12,7 +12,13 @@ interface I18nContextType {
 export const I18nContext = React.createContext<I18nContextType>({
   lang: "ja", // Default language
   t: (key) => key, // Default translation function
-  isRTL: false,
-  numberFormatter: new Intl.NumberFormat("ja"),
-  dateTimeFormatter: new Intl.DateTimeFormat("ja"),
+  isRTL: false, // Default to false
+  numberFormatter: new Intl.NumberFormat("ja"), // Default formatter
+  dateTimeFormatter: new Intl.DateTimeFormat("ja", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  }), // Default formatter
 });

@@ -32,7 +32,7 @@ export interface MarketData {
   price: number;
   change: number;
   changePercent: number;
-  timestamp: Date;
+  timestamp: string; // Changed to string to match ISO string from new Date().toISOString()
   dataSource: string;
   delayMinutes: number;
   // Add more market data fields like volume, high, low, etc.

@@ -1,8 +1,8 @@
-import React, { ReactNode, useState, useEffect, useContext } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import { I18nContext } from "./I18nContext";
 import * as Localization from "expo-localization";
 import { translations, type Language } from "./translations";
-import { t, lang, isRTL, numberFormatter, dateTimeFormatter } from "./index"; // Import all exports from index
+import { createTranslator, createNumberFormatter, createDateTimeFormatter } from "./index";
 
 const SUPPORTED: Language[] = ["ja", "en", "zh", "ko", "es", "fr", "de", "pt", "ar", "hi"];
 
@@ -18,19 +18,28 @@ function getInitialLanguage(): Language {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [currentLang, setCurrentLang] = useState<Language>(getInitialLanguage());
+  const [lang, setLang] = useState<Language>(getInitialLanguage());
 
   useEffect(() => {
-    // In a real app, you might want to allow users to change language
-    // and persist it, or react to system language changes.
-    // For now, we just set it once on mount.
+    // This effect handles initial language setting and could be extended for dynamic changes.
+    // For now, it ensures the initial language is set.
+    const handleLocalizationChange = () => {
+      setLang(getInitialLanguage());
+    };
+
+    // In a real app, you might listen to Localization.addEventListener for dynamic changes
+    // For this project, we assume language is set once on app load or user preference.
+    // Localization.addEventListener('change', handleLocalizationChange); // Uncomment for dynamic updates
+    // return () => Localization.removeEventListener('change', handleLocalizationChange);
   }, []);
 
-  // The `t` function and other i18n utilities are now provided by the `i18n/index.ts` module
-  // and are directly imported. The context provider should just pass these values.
-  // This ensures consistency and avoids re-implementing `t` here.
+  const t = createTranslator(lang);
+  const isRTL = ["ar"].includes(lang);
+  const numberFormatter = createNumberFormatter(lang);
+  const dateTimeFormatter = createDateTimeFormatter(lang);
+
   return (
-    <I18nContext.Provider value={{ lang: currentLang, t, isRTL, numberFormatter, dateTimeFormatter }}>
+    <I18nContext.Provider value={{ lang, t, isRTL, numberFormatter, dateTimeFormatter }}>
       {children}
     </I18nContext.Provider>
   );

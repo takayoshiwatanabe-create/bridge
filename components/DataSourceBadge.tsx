@@ -13,12 +13,15 @@ export function DataSourceBadge({ source, timestamp, delayMinutes }: DataSourceB
 
   // Ensure the locale for toLocaleTimeString is consistent or derived from i18n
   // Using the dynamically determined 'lang' for consistency.
+  // The spec example shows 'JST', but toLocaleTimeString will use local timezone.
+  // If JST is strictly required, timeZone: 'Asia/Tokyo' should be added.
+  // For now, we'll use local time and remove 'JST' from the translation key.
   const formattedTime = timestamp.toLocaleTimeString(lang, {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   });
-  const delayText = delayMinutes > 0 ? `${delayMinutes}分` : t("common.realtime");
+  const delayText = delayMinutes > 0 ? t("common.delay_minutes", { minutes: delayMinutes }) : t("common.realtime");
 
   return (
     <View style={styles.container}>
@@ -47,4 +50,3 @@ const styles = StyleSheet.create({
     color: "#555",
   },
 });
-

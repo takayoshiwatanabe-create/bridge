@@ -32,7 +32,7 @@ export interface MarketData {
   price: number;
   change: number;
   changePercent: number;
-  timestamp: string; // Changed to string to match ISO string from new Date().toISOString()
+  timestamp: Date; // Changed to Date to match DataSourceBadgeProps
   dataSource: string;
   delayMinutes: number;
   // Add more market data fields like volume, high, low, etc.
@@ -70,4 +70,3 @@ export type FeatureFlag = "unlimited_stocks" | "realtime_data" | "consensus_scor
  * Represents the status of a data fetch operation.
  */
 export type DataStatus = "loading" | "success" | "error";
-

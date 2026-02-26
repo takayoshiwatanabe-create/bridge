@@ -39,7 +39,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "パスワードが一致しません。",
     "auth.error.password_too_short": "パスワードは8文字以上である必要があります。",
     "common.disclaimer_badge": "本アプリは投資助言ではありません。データは遅延する場合があります。",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}}遅延",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}}分遅延", // New key
     "common.realtime": "リアルタイム",
     "common.na": "N/A", // Added for missing data
     "portfolio.title": "ポートフォリオ",
@@ -76,7 +77,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "Passwords do not match.",
     "auth.error.password_too_short": "Password must be at least 8 characters long.",
     "common.disclaimer_badge": "This app is not investment advice. Data may be delayed.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} delay",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} minutes delay", // New key
     "common.realtime": "Real-time",
     "common.na": "N/A",
     "portfolio.title": "Portfolio",
@@ -113,7 +115,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "密码不匹配。",
     "auth.error.password_too_short": "密码长度至少为8个字符。",
     "common.disclaimer_badge": "本应用不构成投资建议。数据可能存在延迟。",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} 延迟",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} 分钟延迟", // New key
     "common.realtime": "实时",
     "common.na": "不适用",
     "portfolio.title": "投资组合",
@@ -150,7 +153,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "비밀번호가 일치하지 않습니다.",
     "auth.error.password_too_short": "비밀번호는 8자 이상이어야 합니다.",
     "common.disclaimer_badge": "이 앱은 투자 조언이 아닙니다. 데이터가 지연될 수 있습니다.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} 지연",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}}분 지연", // New key
     "common.realtime": "실시간",
     "common.na": "해당 없음",
     "portfolio.title": "포트폴리오",
@@ -187,7 +191,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "Las contraseñas no coinciden.",
     "auth.error.password_too_short": "La contraseña debe tener al menos 8 caracteres.",
     "common.disclaimer_badge": "Esta aplicación no es asesoramiento de inversión. Los datos pueden estar retrasados.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} de retraso",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} minutos de retraso", // New key
     "common.realtime": "Tiempo real",
     "common.na": "N/A",
     "portfolio.title": "Cartera",
@@ -224,7 +229,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "Les mots de passe ne correspondent pas.",
     "auth.error.password_too_short": "Le mot de passe doit contenir au moins 8 caractères.",
     "common.disclaimer_badge": "Cette application n'est pas un conseil en investissement. Les données peuvent être retardées.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} de retard",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} minutes de retard", // New key
     "common.realtime": "Temps réel",
     "common.na": "N/A",
     "portfolio.title": "Portefeuille",
@@ -261,7 +267,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "Passwörter stimmen nicht überein.",
     "auth.error.password_too_short": "Das Passwort muss mindestens 8 Zeichen lang sein.",
     "common.disclaimer_badge": "Diese App ist keine Anlageberatung. Daten können verzögert sein.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} Verzögerung",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} Minuten Verzögerung", // New key
     "common.realtime": "Echtzeit",
     "common.na": "N/A",
     "portfolio.title": "Portfolio",
@@ -298,7 +305,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "As senhas não coincidem.",
     "auth.error.password_too_short": "A senha deve ter pelo menos 8 caracteres.",
     "common.disclaimer_badge": "Este aplicativo não é um conselho de investimento. Os dados podem estar atrasados.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} de atraso",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} minutos de atraso", // New key
     "common.realtime": "Tempo real",
     "common.na": "N/A",
     "portfolio.title": "Portfólio",
@@ -335,7 +343,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "كلمات المرور غير متطابقة.",
     "auth.error.password_too_short": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
     "common.disclaimer_badge": "هذا التطبيق ليس نصيحة استثمارية. قد تتأخر البيانات.",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} تأخير",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} دقيقة تأخير", // New key
     "common.realtime": "في الوقت الحقيقي",
     "common.na": "غير متوفر",
     "portfolio.title": "المحفظة",
@@ -372,7 +381,8 @@ export const translations: Translations = {
     "auth.error.password_mismatch": "पासवर्ड मेल नहीं खाते।",
     "auth.error.password_too_short": "पासवर्ड कम से कम 8 वर्णों का होना चाहिए।",
     "common.disclaimer_badge": "यह ऐप निवेश सलाह नहीं है। डेटा में देरी हो सकती है।",
-    "common.data_source": "{{source}} | {{time}} JST | {{delay}} देरी",
+    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
+    "common.delay_minutes": "{{minutes}} मिनट की देरी", // New key
     "common.realtime": "वास्तविक समय",
     "common.na": "उपलब्ध नहीं",
     "portfolio.title": "पोर्टफोलियो",
@@ -390,5 +400,3 @@ export const translations: Translations = {
     "portfolio.stock_list.empty": "कोई होल्डिंग्स नहीं मिलीं।",
   },
 };
-
-

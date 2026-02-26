@@ -7,8 +7,10 @@ export function getDeviceLanguage(): Language {
   try {
     const locales = Localization.getLocales();
     // Use `languageCode` for BCP 47 language tag without region, e.g., "en" from "en-US"
-    const deviceLang = locales[0]?.languageCode ?? "ja";
-    if (SUPPORTED_LANGUAGES.includes(deviceLang as Language)) return deviceLang as Language;
+    const deviceLang = locales[0]?.languageCode;
+    if (deviceLang && SUPPORTED_LANGUAGES.includes(deviceLang as Language)) {
+      return deviceLang as Language;
+    }
     return "ja";
   } catch {
     return "ja";
@@ -53,3 +55,4 @@ export const isRTL = ["ar"].includes(lang);
 export const t = createTranslator(lang);
 export const numberFormatter = createNumberFormatter(lang);
 export const dateTimeFormatter = createDateTimeFormatter(lang);
+

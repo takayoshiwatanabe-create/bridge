@@ -57,7 +57,7 @@ export default function PortfolioScreen() {
       price: 175.50,
       change: 2.50,
       changePercent: 1.45,
-      timestamp: new Date().toISOString(), // Convert Date to string
+      timestamp: new Date(), // Changed to Date object
       dataSource: "Quick",
       delayMinutes: 15,
     },
@@ -66,7 +66,7 @@ export default function PortfolioScreen() {
       price: 305.20,
       change: -1.80,
       changePercent: -0.59,
-      timestamp: new Date().toISOString(), // Convert Date to string
+      timestamp: new Date(), // Changed to Date object
       dataSource: "Quick",
       delayMinutes: 15,
     },
@@ -75,7 +75,7 @@ export default function PortfolioScreen() {
       price: 710.00,
       change: 10.00,
       changePercent: 1.43,
-      timestamp: new Date().toISOString(), // Convert Date to string
+      timestamp: new Date(), // Changed to Date object
       dataSource: "Quick",
       delayMinutes: 15,
     },
@@ -179,4 +179,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-

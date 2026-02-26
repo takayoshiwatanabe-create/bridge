@@ -1,5 +1,5 @@
 import React from "react";
-import { Language, translations } from "./translations";
+import { Language } from "./translations";
 
 interface I18nContextType {
   lang: Language;
@@ -22,3 +22,4 @@ export const I18nContext = React.createContext<I18nContextType>({
     minute: "numeric",
   }), // Default formatter
 });
+

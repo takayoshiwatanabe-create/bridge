@@ -7,15 +7,15 @@ import { useContext } from "react";
 import { I18nContext } from "@/i18n/I18nContext";
 
 function RootLayoutContent() {
-  const { isRTL } = useContext(I18nContext);
+  const { isRTL, t } = useContext(I18nContext);
 
   return (
     <View style={[styles.container, isRTL && styles.rtlContainer]}>
       <Stack>
-        <Stack.Screen name="index" options={{ title: "Bridge" }} />
+        <Stack.Screen name="index" options={{ title: t("home.title") }} />
         <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
-        <Stack.Screen name="(app)/portfolio" options={{ title: "Portfolio" }} />
+        <Stack.Screen name="(app)/portfolio" options={{ title: t("portfolio.title") }} />
         {/* Add other screens here as they are created */}
       </Stack>
     </View>

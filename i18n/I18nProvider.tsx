@@ -9,8 +9,11 @@ const SUPPORTED: Language[] = ["ja", "en", "zh", "ko", "es", "fr", "de", "pt", "
 function getInitialLanguage(): Language {
   try {
     const locales = Localization.getLocales();
-    const deviceLang = locales[0]?.languageCode ?? "ja";
-    if (SUPPORTED.includes(deviceLang as Language)) return deviceLang as Language;
+    // Ensure languageCode is treated as a string and checked against SUPPORTED
+    const deviceLang = locales[0]?.languageCode;
+    if (deviceLang && SUPPORTED.includes(deviceLang as Language)) {
+      return deviceLang as Language;
+    }
     return "ja";
   } catch {
     return "ja";
@@ -44,3 +47,4 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     </I18nContext.Provider>
   );
 }
+

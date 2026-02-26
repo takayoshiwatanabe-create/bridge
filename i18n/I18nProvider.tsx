@@ -30,12 +30,21 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(getInitialLanguage());
   const [isRTL, setIsRTL] = useState<boolean>(false);
 
+  // Memoize setLanguage to avoid unnecessary re-renders in children
+  const memoizedSetLanguage = useCallback((lang: Language) => {
+    if (SUPPORTED_LANGUAGES.includes(lang)) {
+      setCurrentLanguage(lang);
+    } else {
+      console.warn(`Language ${lang} is not supported.`);
+    }
+  }, []);
+
   useEffect(() => {
-    _setAppLanguage = setLanguage;
+    _setAppLanguage = memoizedSetLanguage;
     return () => {
       _setAppLanguage = null;
     };
-  }, []);
+  }, [memoizedSetLanguage]);
 
   useEffect(() => {
     updateRTL(currentLanguage);
@@ -44,16 +53,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const updateRTL = (lang: Language) => {
     const rtl = lang === "ar";
     I18nManager.forceRTL(rtl);
+    // Forcing RTL might require a reload to fully apply in some native contexts.
+    // For React Native components, setting `direction: 'rtl'` in styles is often sufficient
+    // after `I18nManager.forceRTL` has been called at app startup.
     setIsRTL(rtl);
   };
-
-  const setLanguage = useCallback((lang: Language) => {
-    if (SUPPORTED_LANGUAGES.includes(lang)) {
-      setCurrentLanguage(lang);
-    } else {
-      console.warn(`Language ${lang} is not supported.`);
-    }
-  }, []);
 
   const t = useCallback((key: string, variables?: { [key: string]: string | number }): string => {
     let translation = translations[currentLanguage]?.[key] || key;
@@ -91,12 +95,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () => ({
       t,
       currentLanguage,
-      setLanguage,
+      setLanguage: memoizedSetLanguage, // Use the memoized setter
       isRTL,
       numberFormatter,
       dateTimeFormatter,
     }),
-    [t, currentLanguage, setLanguage, isRTL, numberFormatter, dateTimeFormatter]
+    [t, currentLanguage, memoizedSetLanguage, isRTL, numberFormatter, dateTimeFormatter]
   );
 
   return (

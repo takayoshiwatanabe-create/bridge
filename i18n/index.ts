@@ -1,6 +1,7 @@
 import * as Localization from "expo-localization";
 import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations";
 import { I18nContext } from "./I18nContext"; // Import I18nContext
+import { setAppLanguage as setAppLanguageInProvider } from "./I18nProvider"; // Import the setter from I18nProvider
 
 // This function is intended to be called from outside the provider to change language
 // It needs to interact with the provider's state.
@@ -8,13 +9,8 @@ import { I18nContext } from "./I18nContext"; // Import I18nContext
 // that exposes this function from the provider.
 // For now, we'll keep the `_setAppLanguage` pattern as it was in the original code,
 // but acknowledge its limitations and potential for being called before initialization.
-let _setAppLanguage: ((lang: Language) => void) | null = null;
 export function setAppLanguage(lang: Language) {
-  if (_setAppLanguage) {
-    _setAppLanguage(lang);
-  } else {
-    console.warn("setAppLanguage called before I18nProvider was fully initialized.");
-  }
+  setAppLanguageInProvider(lang); // Delegate to the function exposed by I18nProvider
 }
 
 export function getDeviceLanguage(): Language {

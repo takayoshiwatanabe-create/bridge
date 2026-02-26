@@ -27,3 +27,13 @@ export function t(key: string, vars?: Record<string, string | number>): string {
   }
   return text;
 }
+
+// Export Intl objects for number and date formatting
+export const numberFormatter = new Intl.NumberFormat(lang);
+export const dateTimeFormatter = new Intl.DateTimeFormat(lang, {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+});

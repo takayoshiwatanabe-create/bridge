@@ -83,5 +83,3 @@ const styles = StyleSheet.create({
     overflow: "hidden", // Ensures borderRadius is visible
   },
 });
-
-

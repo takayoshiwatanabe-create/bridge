@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import { PremiumFeatureGate } from './PremiumFeatureGate';
 import { I18nProvider } from '@/i18n/I18nProvider';
 

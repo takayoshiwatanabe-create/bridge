@@ -41,7 +41,7 @@ describe('UpgradePrompt', () => {
     );
 
     fireEvent.press(getByText('アップグレード'));
-    expect(consoleSpy).toHaveBeenCalledWith('Navigating to upgrade screen...');
+    expect(consoleSpy).toHaveBeenCalledWith('Initiating in-app purchase flow for premium upgrade...');
     consoleSpy.mockRestore();
   });
 

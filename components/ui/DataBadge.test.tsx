@@ -69,4 +69,3 @@ describe('DataSourceBadge', () => {
     expect(getByText('Quick | 27‏/10‏/2023 19:30 بتوقيت اليابان | 15 دقيقة تأخير')).toBeTruthy();
   });
 });
-

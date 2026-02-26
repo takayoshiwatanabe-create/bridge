@@ -70,3 +70,4 @@ export type FeatureFlag = "unlimited_stocks" | "realtime_data" | "consensus_scor
  * Represents the status of a data fetch operation.
  */
 export type DataStatus = "loading" | "success" | "error";
+

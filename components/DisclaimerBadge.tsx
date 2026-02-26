@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { t } from "@/i18n";
+import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
 
 export function DisclaimerBadge() {
+  const { t } = useContext(I18nContext); // Use useContext to get t
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{t("common.disclaimer_badge")}</Text>

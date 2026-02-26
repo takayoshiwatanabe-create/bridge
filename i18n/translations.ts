@@ -40,6 +40,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "パスワードは8文字以上である必要があります。",
     "common.disclaimer_badge": "本アプリは投資助言ではありません。データは遅延する場合があります。",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}}遅延",
+    "common.realtime": "リアルタイム", // Added for DataSourceBadge
   },
   en: {
     "home.title": "Welcome to Bridge",
@@ -62,6 +63,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "Password must be at least 8 characters long.",
     "common.disclaimer_badge": "This app is not investment advice. Data may be delayed.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} delay",
+    "common.realtime": "Real-time", // Added for DataSourceBadge
   },
   zh: {
     "home.title": "欢迎来到 Bridge",
@@ -84,6 +86,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "密码长度至少为8个字符。",
     "common.disclaimer_badge": "本应用不构成投资建议。数据可能存在延迟。",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} 延迟",
+    "common.realtime": "实时", // Added for DataSourceBadge
   },
   ko: {
     "home.title": "Bridge에 오신 것을 환영합니다",
@@ -106,6 +109,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "비밀번호는 8자 이상이어야 합니다.",
     "common.disclaimer_badge": "이 앱은 투자 조언이 아닙니다. 데이터가 지연될 수 있습니다.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} 지연",
+    "common.realtime": "실시간", // Added for DataSourceBadge
   },
   es: {
     "home.title": "Bienvenido a Bridge",
@@ -128,6 +132,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "La contraseña debe tener al menos 8 caracteres.",
     "common.disclaimer_badge": "Esta aplicación no es asesoramiento de inversión. Los datos pueden estar retrasados.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} de retraso",
+    "common.realtime": "Tiempo real", // Added for DataSourceBadge
   },
   fr: {
     "home.title": "Bienvenue sur Bridge",
@@ -150,6 +155,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "Le mot de passe doit contenir au moins 8 caractères.",
     "common.disclaimer_badge": "Cette application n'est pas un conseil en investissement. Les données peuvent être retardées.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} de retard",
+    "common.realtime": "Temps réel", // Added for DataSourceBadge
   },
   de: {
     "home.title": "Willkommen bei Bridge",
@@ -172,6 +178,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "Das Passwort muss mindestens 8 Zeichen lang sein.",
     "common.disclaimer_badge": "Diese App ist keine Anlageberatung. Daten können verzögert sein.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} Verzögerung",
+    "common.realtime": "Echtzeit", // Added for DataSourceBadge
   },
   pt: {
     "home.title": "Bem-vindo ao Bridge",
@@ -194,6 +201,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "A senha deve ter pelo menos 8 caracteres.",
     "common.disclaimer_badge": "Este aplicativo não é um conselho de investimento. Os dados podem estar atrasados.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} de atraso",
+    "common.realtime": "Tempo real", // Added for DataSourceBadge
   },
   ar: {
     "home.title": "مرحباً بك في Bridge",
@@ -216,6 +224,7 @@ export const translations: Translations = {
     "auth.error.password_too_short": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
     "common.disclaimer_badge": "هذا التطبيق ليس نصيحة استثمارية. قد تتأخر البيانات.",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} تأخير",
+    "common.realtime": "في الوقت الحقيقي", // Added for DataSourceBadge
   },
   hi: {
     "home.title": "ब्रिज में आपका स्वागत है",
@@ -238,5 +247,8 @@ export const translations: Translations = {
     "auth.error.password_too_short": "पासवर्ड कम से कम 8 वर्णों का होना चाहिए।",
     "common.disclaimer_badge": "यह ऐप निवेश सलाह नहीं है। डेटा में देरी हो सकती है।",
     "common.data_source": "{{source}} | {{time}} JST | {{delay}} देरी",
+    "common.realtime": "वास्तविक समय", // Added for DataSourceBadge
   },
 };
+
+

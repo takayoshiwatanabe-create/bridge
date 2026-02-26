@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import { t } from "@/i18n";
+import { useContext } from "react";
+import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
 
 export default function HomeScreen() {
+  const { t } = useContext(I18nContext); // Use useContext to get t
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t("home.title")}</Text>

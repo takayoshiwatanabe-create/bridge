@@ -2,21 +2,30 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { I18nProvider } from "@/i18n/I18nProvider";
-import { isRTL } from "@/i18n";
 import { StyleSheet, View } from "react-native";
+import { useContext } from "react";
+import { I18nContext } from "@/i18n/I18nContext";
+
+function RootLayoutContent() {
+  const { isRTL } = useContext(I18nContext);
+
+  return (
+    <View style={[styles.container, isRTL && styles.rtlContainer]}>
+      <Stack>
+        <Stack.Screen name="index" options={{ title: "Bridge" }} />
+        <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
+        {/* Add other screens here as they are created */}
+      </Stack>
+    </View>
+  );
+}
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <I18nProvider>
-        <View style={[styles.container, isRTL && styles.rtlContainer]}>
-          <Stack>
-            <Stack.Screen name="index" options={{ title: "Bridge" }} />
-            <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
-            {/* Add other screens here as they are created */}
-          </Stack>
-        </View>
+        <RootLayoutContent />
       </I18nProvider>
       <StatusBar style="auto" />
     </SafeAreaProvider>

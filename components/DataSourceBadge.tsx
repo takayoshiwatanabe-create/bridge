@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { t } from "@/i18n";
+import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
 
 interface DataSourceBadgeProps {
   source: string;
@@ -9,12 +9,16 @@ interface DataSourceBadgeProps {
 }
 
 export function DataSourceBadge({ source, timestamp, delayMinutes }: DataSourceBadgeProps) {
-  const formattedTime = timestamp.toLocaleTimeString("ja-JP", {
+  const { t, lang } = useContext(I18nContext); // Use useContext to get t and lang
+
+  // Ensure the locale for toLocaleTimeString is consistent or derived from i18n
+  // Using the dynamically determined 'lang' for consistency.
+  const formattedTime = timestamp.toLocaleTimeString(lang, {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   });
-  const delayText = delayMinutes > 0 ? `${delayMinutes}分` : "リアルタイム";
+  const delayText = delayMinutes > 0 ? `${delayMinutes}分` : t("common.realtime");
 
   return (
     <View style={styles.container}>

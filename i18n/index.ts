@@ -41,3 +41,4 @@ export const dateTimeFormatter = new Intl.DateTimeFormat(lang, {
   hour: "numeric",
   minute: "numeric",
 });
+

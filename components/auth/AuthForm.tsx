@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { t, isRTL } from "@/i18n";
+import { I18nContext } from "@/i18n/I18nContext"; // Import I18nContext
 
 interface AuthFormProps {
   type: "login" | "signup";
@@ -15,6 +15,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ type, onSubmit, onOAuthLogin }: AuthFormProps) {
+  const { t, isRTL } = useContext(I18nContext); // Use useContext to get t and isRTL
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");

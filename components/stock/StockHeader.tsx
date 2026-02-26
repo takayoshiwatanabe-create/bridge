@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
-import { DataSourceBadge } from "@/components/DataSourceBadge";
 import { Instrument, MarketData } from "@/types";
+import { DataSourceBadge } from "@/components/DataSourceBadge";
 
 interface StockHeaderProps {
   instrument: Instrument;
@@ -12,24 +12,16 @@ interface StockHeaderProps {
 export function StockHeader({ instrument, marketData }: StockHeaderProps) {
   const { t, numberFormatter, isRTL } = useContext(I18nContext);
 
-  const priceColor = marketData.change >= 0 ? "#28a745" : "#dc3545"; // Green for gain, red for loss
+  const changeColor = marketData.change >= 0 ? "#28a745" : "#dc3545"; // Green for gain, red for loss
 
   return (
     <View style={[styles.container, isRTL && styles.rtlContainer]}>
       <Text style={styles.symbol}>{instrument.symbol}</Text>
       <Text style={styles.name}>{instrument.name}</Text>
-      <Text style={styles.exchange}>{instrument.exchange}</Text>
-
-      <View style={styles.priceContainer}>
-        <Text style={styles.price}>{numberFormatter.format(marketData.price)}</Text>
-        <Text style={[styles.change, { color: priceColor }]}>
-          {marketData.change >= 0 ? "+" : ""}
-          {numberFormatter.format(marketData.change)} (
-          {marketData.changePercent >= 0 ? "+" : ""}
-          {numberFormatter.format(marketData.changePercent)}%)
-        </Text>
-      </View>
-
+      <Text style={styles.price}>{numberFormatter.format(marketData.price)} {instrument.currency}</Text>
+      <Text style={[styles.change, { color: changeColor }]}>
+        {numberFormatter.format(marketData.change)} ({numberFormatter.format(marketData.changePercent)}%)
+      </Text>
       <DataSourceBadge
         source={marketData.dataSource}
         timestamp={marketData.timestamp}
@@ -61,27 +53,18 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    color: "#555",
-    marginBottom: 5,
-  },
-  exchange: {
-    fontSize: 14,
-    color: "#888",
-    marginBottom: 15,
-  },
-  priceContainer: {
-    flexDirection: "row",
-    alignItems: "flex-end",
+    color: "#666",
     marginBottom: 10,
   },
   price: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
     color: "#333",
-    marginRight: 10,
+    marginBottom: 5,
   },
   change: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
   },
 });
+

@@ -1,14 +1,22 @@
 import * as Localization from "expo-localization";
-import { translations, type Language } from "./translations";
+import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations"; // Import SUPPORTED_LANGUAGES
 
-export const SUPPORTED_LANGUAGES: Language[] = ["ja", "en", "zh", "ko", "es", "fr", "de", "pt", "ar", "hi"];
+// This function will be called from LanguageSelector to change the app language
+let _setAppLanguage: ((lang: Language) => void) | null = null;
+export function setAppLanguage(lang: Language) {
+  if (_setAppLanguage) {
+    _setAppLanguage(lang);
+  } else {
+    console.warn("setAppLanguage called before I18nProvider was fully initialized.");
+  }
+}
 
 export function getDeviceLanguage(): Language {
   try {
     const locales = Localization.getLocales();
     // Use `languageCode` for BCP 47 language tag without region, e.g., "en" from "en-US"
     const deviceLang = locales[0]?.languageCode;
-    if (deviceLang && SUPPORTED_LANGUAGES.includes(deviceLang as Language)) {
+    if (deviceLang && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLang)) {
       return deviceLang as Language;
     }
     return "ja";
@@ -50,8 +58,11 @@ export function createDateTimeFormatter(currentLang: Language): Intl.DateTimeFor
 
 // For direct use in non-React contexts or for initial setup if needed,
 // though I18nProvider is the primary way to get these.
+// These exports are for initial setup/default values, the context provides dynamic ones.
 export const lang = getDeviceLanguage();
 export const isRTL = ["ar"].includes(lang);
 export const t = createTranslator(lang);
 export const numberFormatter = createNumberFormatter(lang);
 export const dateTimeFormatter = createDateTimeFormatter(lang);
+
+

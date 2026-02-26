@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
 import { useContext } from "react";
 import { I18nContext } from "@/i18n/I18nContext";
-import { Link } from "expo-router"; // Import Link for navigation
 
-export default function HomeScreen() {
+export default function IndexScreen() {
   const { t } = useContext(I18nContext);
 
   return (
@@ -58,3 +58,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+

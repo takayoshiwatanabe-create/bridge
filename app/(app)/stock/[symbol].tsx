@@ -195,3 +195,4 @@ const styles = StyleSheet.create({
     marginBottom: 40, // Give some space at the bottom
   },
 });
+

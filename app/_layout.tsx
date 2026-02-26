@@ -15,9 +15,7 @@ function RootLayoutContent() {
         <Stack.Screen name="index" options={{ title: t("home.title") }} />
         <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
-        <Stack.Screen name="(app)/portfolio" options={{ title: t("portfolio.title") }} />
-        <Stack.Screen name="(app)/stock/[symbol]" options={{ title: t("stock_detail.title") }} />
-        {/* Add other screens here as they are created */}
+        <Stack.Screen name="(app)" options={{ headerShown: false }} /> {/* This is the Tabs layout */}
       </Stack>
     </View>
   );
@@ -42,3 +40,4 @@ const styles = StyleSheet.create({
     direction: "rtl",
   },
 });
+

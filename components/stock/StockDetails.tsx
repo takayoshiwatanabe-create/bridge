@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
-import { CompanyInfo } from "@/types"; // Import CompanyInfo from types
+import { CompanyInfo } from "@/types";
 
 interface StockDetailsProps {
   companyInfo: CompanyInfo;
@@ -29,23 +29,29 @@ export function StockDetails({ companyInfo }: StockDetailsProps) {
 
       <View style={styles.detailRow}>
         <Text style={styles.detailLabel}>{t("stock_detail.company_info.sector")}:</Text>
-        <Text style={styles.detailValue}>{companyInfo.sector}</Text>
+        <Text style={styles.detailValue}>{companyInfo.sector || t("common.na")}</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailLabel}>{t("stock_detail.company_info.industry")}:</Text>
-        <Text style={styles.detailValue}>{companyInfo.industry}</Text>
+        <Text style={styles.detailValue}>{companyInfo.industry || t("common.na")}</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailLabel}>{t("stock_detail.company_info.market_cap")}:</Text>
-        <Text style={styles.detailValue}>{formatMarketCap(companyInfo.marketCap)}</Text>
+        <Text style={styles.detailValue}>
+          {companyInfo.marketCap ? formatMarketCap(companyInfo.marketCap) : t("common.na")}
+        </Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailLabel}>{t("stock_detail.company_info.pe_ratio")}:</Text>
-        <Text style={styles.detailValue}>{numberFormatter.format(companyInfo.peRatio)}</Text>
+        <Text style={styles.detailValue}>
+          {companyInfo.peRatio ? numberFormatter.format(companyInfo.peRatio) : t("common.na")}
+        </Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailLabel}>{t("stock_detail.company_info.dividend_yield")}:</Text>
-        <Text style={styles.detailValue}>{numberFormatter.format(companyInfo.dividendYield)}%</Text>
+        <Text style={styles.detailValue}>
+          {companyInfo.dividendYield ? `${numberFormatter.format(companyInfo.dividendYield)}%` : t("common.na")}
+        </Text>
       </View>
     </View>
   );
@@ -53,11 +59,14 @@ export function StockDetails({ companyInfo }: StockDetailsProps) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
     padding: 15,
-    borderWidth: 1,
-    borderColor: "#eee",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
   },
   rtlContainer: {
     direction: "rtl",
@@ -71,8 +80,7 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
-    paddingBottom: 5,
+    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
@@ -84,5 +92,7 @@ const styles = StyleSheet.create({
   detailValue: {
     fontSize: 14,
     color: "#333",
+    fontWeight: "600",
   },
 });
+

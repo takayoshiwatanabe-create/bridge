@@ -1,17 +1,15 @@
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode, useState, useEffect, useCallback } from "react";
 import { I18nContext } from "./I18nContext";
 import * as Localization from "expo-localization";
-import { translations, type Language } from "./translations";
+import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations"; // Import SUPPORTED_LANGUAGES
 import { createTranslator, createNumberFormatter, createDateTimeFormatter } from "./index";
-
-const SUPPORTED: Language[] = ["ja", "en", "zh", "ko", "es", "fr", "de", "pt", "ar", "hi"];
 
 function getInitialLanguage(): Language {
   try {
     const locales = Localization.getLocales();
-    // Ensure languageCode is treated as a string and checked against SUPPORTED
+    // Ensure languageCode is treated as a string and checked against SUPPORTED_LANGUAGES
     const deviceLang = locales[0]?.languageCode;
-    if (deviceLang && SUPPORTED.includes(deviceLang as Language)) {
+    if (deviceLang && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLang)) {
       return deviceLang as Language;
     }
     return "ja";
@@ -20,8 +18,27 @@ function getInitialLanguage(): Language {
   }
 }
 
+// This function will be called from LanguageSelector to change the app language
+let _setAppLanguage: ((lang: Language) => void) | null = null;
+export function setAppLanguage(lang: Language) {
+  if (_setAppLanguage) {
+    _setAppLanguage(lang);
+  } else {
+    console.warn("setAppLanguage called before I18nProvider was fully initialized.");
+  }
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Language>(getInitialLanguage());
+
+  // Expose setLang function to the global scope or a module-level variable
+  // so it can be called from outside the component tree (e.g., LanguageSelector)
+  useEffect(() => {
+    _setAppLanguage = setLang;
+    return () => {
+      _setAppLanguage = null; // Clean up on unmount
+    };
+  }, []);
 
   useEffect(() => {
     // This effect handles initial language setting and could be extended for dynamic changes.
@@ -36,10 +53,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     // return () => Localization.removeEventListener('change', handleLocalizationChange);
   }, []);
 
-  const t = createTranslator(lang);
+  const t = useCallback(createTranslator(lang), [lang]);
   const isRTL = ["ar"].includes(lang);
-  const numberFormatter = createNumberFormatter(lang);
-  const dateTimeFormatter = createDateTimeFormatter(lang);
+  const numberFormatter = useCallback(createNumberFormatter(lang), [lang]);
+  const dateTimeFormatter = useCallback(createDateTimeFormatter(lang), [lang]);
 
   return (
     <I18nContext.Provider value={{ lang, t, isRTL, numberFormatter, dateTimeFormatter }}>
@@ -47,3 +64,5 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     </I18nContext.Provider>
   );
 }
+
+

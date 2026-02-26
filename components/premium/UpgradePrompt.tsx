@@ -8,9 +8,13 @@ export function UpgradePrompt() {
   const router = useRouter();
 
   const handleUpgradePress = () => {
-    // Navigate to a dedicated upgrade screen or subscription management page
-    console.log("Navigating to upgrade screen...");
-    // router.push("/(app)/upgrade"); // Example route
+    // IMPORTANT: For App Store compliance, any digital content sales
+    // must use StoreKit/IAP (In-App Purchase).
+    // Direct external payment links are prohibited.
+    // This `console.log` is a placeholder. In a production app,
+    // this would initiate an in-app purchase flow.
+    console.log("Initiating in-app purchase flow for premium upgrade...");
+    // router.push("/(app)/upgrade"); // Example route for an IAP screen
   };
 
   return (
@@ -66,5 +70,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-

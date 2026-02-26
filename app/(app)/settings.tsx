@@ -14,6 +14,8 @@ export default function SettingsScreen() {
   // For simplicity and to avoid adding `expo-application` dependency for this task,
   // we'll use `Constants.expoConfig?.version` which works in Expo Go.
   const appVersion = Constants.expoConfig?.version || "N/A";
+  const privacyPolicyUrl = Constants.expoConfig?.privacyPolicyUrl || "https://www.example.com/privacy-policy";
+  const termsOfServiceUrl = "https://www.example.com/terms-of-service"; // Placeholder URL
 
   const handleLinkPress = async (url: string) => {
     const supported = await Linking.canOpenURL(url);
@@ -41,13 +43,13 @@ export default function SettingsScreen() {
         <Text style={[styles.sectionHeader, isRTL && styles.rtlText]}>{t("settings.legal_info")}</Text>
         <TouchableOpacity
           style={styles.linkButton}
-          onPress={() => handleLinkPress("https://www.example.com/privacy")} // Placeholder URL
+          onPress={() => handleLinkPress(privacyPolicyUrl)}
         >
           <Text style={[styles.linkText, isRTL && styles.rtlText]}>{t("settings.privacy_policy")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.linkButton}
-          onPress={() => handleLinkPress("https://www.example.com/terms")} // Placeholder URL
+          onPress={() => handleLinkPress(termsOfServiceUrl)}
         >
           <Text style={[styles.linkText, isRTL && styles.rtlText]}>{t("settings.terms_of_service")}</Text>
         </TouchableOpacity>
@@ -110,4 +112,3 @@ const styles = StyleSheet.create({
     color: "#555",
   },
 });
-

@@ -10,14 +10,21 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.zerocode.bridge"
+      "bundleIdentifier": "com.zerocode.bridge",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Bridgeは、お客様の現在地情報にアクセスすることはありません。",
+        "NSCameraUsageDescription": "Bridgeは、お客様のカメラにアクセスすることはありません。",
+        "NSPhotoLibraryUsageDescription": "Bridgeは、お客様のフォトライブラリにアクセスすることはありません。"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.zerocode.bridge"
+      "package": "com.zerocode.bridge",
+      "versionCode": 1
     },
     "web": {
       "bundler": "metro",
@@ -39,7 +46,8 @@
       "pt": "./locales/pt.json",
       "ar": "./locales/ar.json",
       "hi": "./locales/hi.json"
-    }
+    },
+    "description": "Bridgeは、投資家が直面する「データの断片化」と「意思決定の不安」を解消し、自分の資産と市場の評価を最短距離でつなぐプラットフォームです。リアルタイムに近い市場データ、パーソナライズされたポートフォリオ分析、そして直感的なUIで、あなたの投資判断を強力にサポートします。透明性と誠実性を核に、複雑な金融情報をシンプルに提示し、投資家が真実にアクセスできる環境を提供します。今すぐBridgeで、あなたの投資体験を次のレベルへ。",
+    "privacyPolicyUrl": "https://www.example.com/privacy-policy"
   }
 }
-

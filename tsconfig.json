@@ -6,7 +6,8 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "baseUrl": "."
   },
   "include": [
     "**/*.ts",
@@ -14,6 +15,14 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "src/**/*.tsx",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "app/**/*.tsx",
+    "app/**/*.ts",
+    "components/**/*.tsx",
+    "components/**/*.ts",
+    "i18n/**/*.tsx",
+    "i18n/**/*.ts",
+    "types/**/*.ts"
   ]
 }
+

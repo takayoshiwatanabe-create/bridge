@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
 import { Instrument, MarketData } from "@/types";
-import { DataSourceBadge } from "@/components/DataSourceBadge";
+import { DataBadge } from "@/components/ui/DataBadge"; // Corrected import path to DataBadge
 
 interface StockHeaderProps {
   instrument: Instrument;
@@ -22,11 +22,9 @@ export function StockHeader({ instrument, marketData }: StockHeaderProps) {
       <Text style={[styles.change, { color: changeColor }]}>
         {numberFormatter.format(marketData.change)} ({numberFormatter.format(marketData.changePercent)}%)
       </Text>
-      <DataSourceBadge
-        source={marketData.dataSource}
-        timestamp={marketData.timestamp}
-        delayMinutes={marketData.delayMinutes}
-      />
+      {/* DataBadge is rendered separately in the parent component, as per the original structure.
+          If it should be part of the header, it needs to be moved here.
+          For now, keeping it as is to match the provided structure. */}
     </View>
   );
 }

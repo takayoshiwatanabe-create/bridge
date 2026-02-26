@@ -9,20 +9,16 @@ interface DataBadgeProps {
 }
 
 export function DataBadge({ source, timestamp, delayMinutes }: DataBadgeProps) {
-  const { t, dateTimeFormatter } = useContext(I18nContext);
+  const { t, dateTimeFormatter, isRTL } = useContext(I18nContext);
 
-  const dateObject = new Date(timestamp);
-  const formattedTime = dateTimeFormatter.format(dateObject);
-  const delayText = delayMinutes > 0 ? t("common.delay_minutes", { minutes: delayMinutes }) : t("common.realtime");
+  const date = new Date(timestamp);
+  const formattedTime = dateTimeFormatter.format(date);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isRTL && styles.rtlContainer]}>
       <Text style={styles.text}>
-        {t("common.data_source", {
-          source: source,
-          time: formattedTime,
-          delay: delayText,
-        })}
+        {source} | {formattedTime} {t("common.jst")} | {delayMinutes}{" "}
+        {t("common.minutes_delayed")}
       </Text>
     </View>
   );
@@ -30,16 +26,20 @@ export function DataBadge({ source, timestamp, delayMinutes }: DataBadgeProps) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#e0e0e0", // Light grey background
+    backgroundColor: "#e0e0e0", // Light gray background
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
-    alignSelf: "flex-start",
-    marginVertical: 8,
+    alignSelf: "flex-start", // Only take necessary width
+    marginTop: 10,
+  },
+  rtlContainer: {
+    direction: "rtl",
   },
   text: {
     fontSize: 12,
     color: "#555",
+    fontWeight: "500",
   },
 });
 

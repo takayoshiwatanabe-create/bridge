@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
 import { Stack } from "expo-router";
-import { useContext } from "react";
 import { I18nContext } from "@/i18n/I18nContext";
 
 export default function SignupScreen() {
-  const { t } = useContext(I18nContext);
+  const { t, isRTL } = useContext(I18nContext);
 
   const handleSignup = (email: string, password: string) => {
     // Placeholder for signup logic
@@ -22,7 +21,7 @@ export default function SignupScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isRTL && styles.rtlContainer]}>
       <Stack.Screen options={{ title: t("auth.signup.title") }} />
       <AuthForm
         type="signup"
@@ -44,7 +43,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#f5f5f5",
   },
+  rtlContainer: {
+    direction: "rtl",
+  },
   disclaimerContainer: {
     marginTop: 20,
   },
 });
+

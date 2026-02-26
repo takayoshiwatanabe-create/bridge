@@ -1,5 +1,44 @@
-// This file is a duplicate of src/components/ui/DataBadge.tsx and should be removed.
-// The design spec indicates a single DataBadge component.
-// Keeping this file would lead to confusion and potential inconsistencies.
-// The correct component to use is src/components/ui/DataBadge.tsx.
-// No changes are made here, but this file should be deleted from the project.
+import React, { useContext } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { I18nContext } from "@/i18n/I18nContext";
+
+interface DataSourceBadgeProps {
+  source: string;
+  timestamp: string; // ISO string
+  delayMinutes: number;
+}
+
+export function DataSourceBadge({ source, timestamp, delayMinutes }: DataSourceBadgeProps) {
+  const { t, dateTimeFormatter } = useContext(I18nContext);
+
+  const dateObject = new Date(timestamp);
+  const formattedTime = dateTimeFormatter.format(dateObject);
+  const delayText = delayMinutes > 0 ? t("common.delay_minutes", { minutes: delayMinutes }) : t("common.realtime");
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        {t("common.data_source", {
+          source: source,
+          time: formattedTime,
+          delay: delayText,
+        })}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#e0e0e0", // Light grey background
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    alignSelf: "flex-start",
+    marginVertical: 8,
+  },
+  text: {
+    fontSize: 12,
+    color: "#555",
+  },
+});

@@ -15,6 +15,7 @@ export default function AppLayout() {
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarActiveTintColor: "#007bff", // Primary color
         tabBarInactiveTintColor: "#6c757d", // Secondary color
+        tabBarItemStyle: isRTL ? { flexDirection: 'row-reverse' } : undefined, // Adjust item direction for RTL
       }}
     >
       <Tabs.Screen
@@ -75,3 +76,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+

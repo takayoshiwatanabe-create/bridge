@@ -17,6 +17,7 @@ function RootLayoutContent() {
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
         <Stack.Screen name="(app)" options={{ headerShown: false }} /> {/* This is the Tabs layout */}
       </Stack>
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -27,7 +28,6 @@ export default function RootLayout() {
       <I18nProvider>
         <RootLayoutContent />
       </I18nProvider>
-      <StatusBar style="auto" />
     </SafeAreaProvider>
   );
 }
@@ -40,3 +40,4 @@ const styles = StyleSheet.create({
     direction: "rtl",
   },
 });
+

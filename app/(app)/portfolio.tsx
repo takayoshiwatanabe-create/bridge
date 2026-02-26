@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Stack } from "expo-router";
 import { I18nContext } from "@/i18n/I18nContext";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
-import { DataBadge } from "@/components/ui/DataBadge"; // Corrected import path
+import { DataSourceBadge } from "@/components/DataSourceBadge"; // Corrected import
 import { PortfolioSummary } from "@/components/portfolio/PortfolioSummary";
 import { StockList } from "@/components/portfolio/StockList";
 import { PortfolioItem, MarketData, PortfolioSummary as PortfolioSummaryType } from "@/types";
@@ -110,7 +110,7 @@ export default function PortfolioScreen() {
 
   if (!portfolioSummary) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, isRTL && styles.rtlContainer]}>
         <Stack.Screen options={{ title: t("portfolio.title") }} />
         <Text style={styles.errorText}>{t("common.error_loading_data")}</Text>
         <DisclaimerBadge />
@@ -123,14 +123,14 @@ export default function PortfolioScreen() {
       <Stack.Screen options={{ title: t("portfolio.title") }} />
       <DisclaimerBadge />
 
-      <Text style={styles.header}>{t("portfolio.my_portfolio")}</Text>
+      <Text style={[styles.header, isRTL && styles.rtlText]}>{t("portfolio.my_portfolio")}</Text>
 
       <PortfolioSummary summary={portfolioSummary} />
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>{t("portfolio.holdings")}</Text>
+        <Text style={[styles.sectionHeader, isRTL && styles.rtlText]}>{t("portfolio.holdings")}</Text>
         {/* DataBadge is required for all price displays */}
-        <DataBadge // Corrected component name
+        <DataSourceBadge
           source="Quick"
           timestamp={marketData[0]?.timestamp || new Date().toISOString()} // Use actual market data timestamp
           delayMinutes={marketData[0]?.delayMinutes || 15}
@@ -149,6 +149,9 @@ const styles = StyleSheet.create({
   },
   rtlContainer: {
     direction: "rtl",
+  },
+  rtlText: {
+    textAlign: "right",
   },
   loadingContainer: {
     flex: 1,
@@ -183,3 +186,4 @@ const styles = StyleSheet.create({
     color: "#333", // Text Primary
   },
 });
+

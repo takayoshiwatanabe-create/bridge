@@ -5,12 +5,12 @@ import { I18nContext } from "@/i18n/I18nContext";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge"; // Import DisclaimerBadge
 
 export default function IndexScreen() {
-  const { t } = useContext(I18nContext);
+  const { t, isRTL } = useContext(I18nContext);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{t("home.title")}</Text>
-      <Text style={styles.subtitle}>{t("home.subtitle")}</Text>
+    <View style={[styles.container, isRTL && styles.rtlContainer]}>
+      <Text style={[styles.title, isRTL && styles.rtlText]}>{t("home.title")}</Text>
+      <Text style={[styles.subtitle, isRTL && styles.rtlText]}>{t("home.subtitle")}</Text>
 
       <Link href="/(auth)/login" style={styles.link}>
         <Text style={styles.linkText}>{t("auth.login.title")}</Text>
@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 24,
     backgroundColor: "#f5f5f5", // Light background
+  },
+  rtlContainer: {
+    direction: "rtl",
+  },
+  rtlText: {
+    textAlign: "right",
   },
   title: {
     fontSize: 32, // H1: 32px, Bold

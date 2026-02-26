@@ -50,8 +50,8 @@ export default function SearchScreen() {
 
   const renderItem = ({ item }: { item: Instrument }) => (
     <TouchableOpacity style={styles.resultItem} onPress={() => handleSelectStock(item.symbol)}>
-      <Text style={styles.resultSymbol}>{item.symbol}</Text>
-      <Text style={styles.resultName}>{item.name}</Text>
+      <Text style={[styles.resultSymbol, isRTL && styles.rtlText]}>{item.symbol}</Text>
+      <Text style={[styles.resultName, isRTL && styles.rtlText]}>{item.name}</Text>
     </TouchableOpacity>
   );
 
@@ -60,7 +60,7 @@ export default function SearchScreen() {
       <Stack.Screen options={{ title: t("search.title") }} />
       <DisclaimerBadge />
 
-      <Text style={styles.header}>{t("search.title")}</Text>
+      <Text style={[styles.header, isRTL && styles.rtlText]}>{t("search.title")}</Text>
 
       <TextInput
         style={[styles.searchInput, isRTL && styles.rtlInput]}
@@ -80,7 +80,7 @@ export default function SearchScreen() {
           renderItem={renderItem}
           ListEmptyComponent={
             searchText.trim().length > 0 && !loading ? (
-              <Text style={styles.emptyListText}>{t("search.no_results")}</Text>
+              <Text style={[styles.emptyListText, isRTL && styles.rtlText]}>{t("search.no_results")}</Text>
             ) : null
           }
           style={styles.resultsList}
@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
   },
   rtlContainer: {
     direction: "rtl",
+  },
+  rtlText: {
+    textAlign: "right",
   },
   header: {
     fontSize: 28, // H1: 32px, Bold - Adjusted to H1 spec
@@ -149,3 +152,4 @@ const styles = StyleSheet.create({
     color: "#888",
   },
 });
+

@@ -30,32 +30,32 @@ export default function SettingsScreen() {
       <Stack.Screen options={{ title: t("settings.title") }} />
       <DisclaimerBadge />
 
-      <Text style={styles.header}>{t("settings.title")}</Text>
+      <Text style={[styles.header, isRTL && styles.rtlText]}>{t("settings.title")}</Text>
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>{t("settings.language_settings")}</Text>
+        <Text style={[styles.sectionHeader, isRTL && styles.rtlText]}>{t("settings.language_settings")}</Text>
         <LanguageSelector />
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>{t("settings.legal_info")}</Text>
+        <Text style={[styles.sectionHeader, isRTL && styles.rtlText]}>{t("settings.legal_info")}</Text>
         <TouchableOpacity
           style={styles.linkButton}
           onPress={() => handleLinkPress("https://www.example.com/privacy")} // Placeholder URL
         >
-          <Text style={styles.linkText}>{t("settings.privacy_policy")}</Text>
+          <Text style={[styles.linkText, isRTL && styles.rtlText]}>{t("settings.privacy_policy")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.linkButton}
           onPress={() => handleLinkPress("https://www.example.com/terms")} // Placeholder URL
         >
-          <Text style={styles.linkText}>{t("settings.terms_of_service")}</Text>
+          <Text style={[styles.linkText, isRTL && styles.rtlText]}>{t("settings.terms_of_service")}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>{t("settings.app_version")}</Text>
-        <Text style={styles.versionText}>{appVersion}</Text>
+        <Text style={[styles.sectionHeader, isRTL && styles.rtlText]}>{t("settings.app_version")}</Text>
+        <Text style={[styles.versionText, isRTL && styles.rtlText]}>{appVersion}</Text>
       </View>
     </ScrollView>
   );
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
   },
   rtlContainer: {
     direction: "rtl",
+  },
+  rtlText: {
+    textAlign: "right",
   },
   header: {
     fontSize: 28, // H1: 32px, Bold - Adjusted to H1 spec
@@ -107,3 +110,4 @@ const styles = StyleSheet.create({
     color: "#555",
   },
 });
+

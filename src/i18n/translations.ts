@@ -763,5 +763,3 @@ export const translations: Translations = {
     "search.no_results": "कोई खोज परिणाम नहीं मिला।",
   },
 };
-
-

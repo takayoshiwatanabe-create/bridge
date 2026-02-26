@@ -40,13 +40,13 @@ export function I18nProvider({ children }: I18nProviderProps) {
   const [isRTL, setIsRTL] = useState<boolean>(false);
 
   useEffect(() => {
-    const deviceLanguage = Localization.getLocales()[0].languageCode as Language;
-    const initialLanguage = SUPPORTED_LANGUAGES.includes(deviceLanguage)
+    const deviceLanguage = Localization.getLocales()[0]?.languageCode as Language | undefined;
+    const initialLanguage = deviceLanguage && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLanguage)
       ? deviceLanguage
       : "ja"; // Default to Japanese if device language is not supported
 
-    setCurrentLanguage(initialLanguage);
-    updateRTL(initialLanguage);
+    setCurrentLanguage(initialLanguage as Language); // Cast to Language
+    updateRTL(initialLanguage as Language); // Cast to Language
   }, []);
 
   const updateRTL = (lang: Language) => {
@@ -57,7 +57,7 @@ export function I18nProvider({ children }: I18nProviderProps) {
   };
 
   const setLanguage = (lang: Language) => {
-    if (SUPPORTED_LANGUAGES.includes(lang)) {
+    if ((SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
       setCurrentLanguage(lang);
       updateRTL(lang);
       // Note: For a full RTL change to take effect, the app might need to be reloaded.
@@ -114,3 +114,4 @@ export function I18nProvider({ children }: I18nProviderProps) {
     <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>
   );
 }
+

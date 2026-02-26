@@ -32,7 +32,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   // Memoize setLanguage to avoid unnecessary re-renders in children
   const memoizedSetLanguage = useCallback((lang: Language) => {
-    if (SUPPORTED_LANGUAGES.includes(lang)) {
+    if ((SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
       setCurrentLanguage(lang);
     } else {
       console.warn(`Language ${lang} is not supported.`);
@@ -107,3 +107,4 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>
   );
 }
+

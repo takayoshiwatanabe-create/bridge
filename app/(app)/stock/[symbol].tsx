@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-nat
 import { Stack, useLocalSearchParams } from "expo-router";
 import { I18nContext } from "@/i18n/I18nContext";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
-import { DataSourceBadge } from "@/components/DataSourceBadge";
+import { DataBadge } from "@/components/ui/DataBadge"; // Corrected import path
 import { StockHeader } from "@/components/stock/StockHeader";
 import { StockDetails } from "@/components/stock/StockDetails";
 import { Instrument, MarketData, CompanyInfo } from "@/types"; // Import CompanyInfo
@@ -121,6 +121,12 @@ export default function StockDetailScreen() {
 
       <View style={styles.section}>
         <StockHeader instrument={instrument} marketData={marketData} />
+        {/* DataBadge is required for all price displays */}
+        <DataBadge // Corrected component name
+          source={marketData.dataSource}
+          timestamp={marketData.timestamp}
+          delayMinutes={marketData.delayMinutes}
+        />
       </View>
 
       <View style={styles.section}>
@@ -195,4 +201,3 @@ const styles = StyleSheet.create({
     marginBottom: 40, // Give some space at the bottom
   },
 });
-

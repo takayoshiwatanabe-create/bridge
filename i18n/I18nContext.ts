@@ -25,3 +25,4 @@ export const I18nContext = React.createContext<I18nContextType>({
     hour12: false, // Ensure consistency with I18nProvider
   }),
 });
+

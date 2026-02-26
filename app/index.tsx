@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { useContext } from "react";
 import { I18nContext } from "@/i18n/I18nContext";
+import { DisclaimerBadge } from "@/components/DisclaimerBadge"; // Import DisclaimerBadge
 
 export default function IndexScreen() {
   const { t } = useContext(I18nContext);
@@ -23,6 +24,9 @@ export default function IndexScreen() {
       <Link href="/(app)/stock/AAPL" style={styles.link}>
         <Text style={styles.linkText}>{t("stock_detail.title")} (AAPL)</Text>
       </Link>
+      <View style={styles.disclaimerContainer}>
+        <DisclaimerBadge />
+      </View>
     </View>
   );
 }
@@ -59,5 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  disclaimerContainer: {
+    marginTop: 30, // Add some space above the disclaimer
+  },
 });
-

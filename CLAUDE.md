@@ -268,6 +268,7 @@ Priority 2 (P2): データ遅延 (SLA超過)
        │                    │
 ┌──────▼──────┐    ┌────────▼────────────────────────────────────┐
 │  Next.js 15 │
+```
 
 ## Development Instructions
 N/A
@@ -292,3 +293,4 @@ N/A
 - Default language: ja (Japanese)
 - RTL support required for Arabic (ar)
 - Use isRTL flag from i18n module for layout adjustments
+

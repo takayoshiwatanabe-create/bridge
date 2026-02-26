@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Stack } from "expo-router";
 import { I18nContext } from "@/i18n/I18nContext";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
-import { DataSourceBadge } from "@/components/DataSourceBadge";
+import { DataBadge } from "@/components/ui/DataBadge"; // Corrected import path
 import { PortfolioSummary } from "@/components/portfolio/PortfolioSummary";
 import { StockList } from "@/components/portfolio/StockList";
 import { PortfolioItem, MarketData, PortfolioSummary as PortfolioSummaryType } from "@/types";
@@ -130,7 +130,7 @@ export default function PortfolioScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>{t("portfolio.holdings")}</Text>
         {/* DataBadge is required for all price displays */}
-        <DataSourceBadge
+        <DataBadge // Corrected component name
           source="Quick"
           timestamp={marketData[0]?.timestamp || new Date().toISOString()} // Use actual market data timestamp
           delayMinutes={marketData[0]?.delayMinutes || 15}
@@ -183,4 +183,3 @@ const styles = StyleSheet.create({
     color: "#333", // Text Primary
   },
 });
-

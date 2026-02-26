@@ -1,15 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
-
-interface CompanyInfo {
-  description: string;
-  sector: string;
-  industry: string;
-  marketCap: number;
-  peRatio: number;
-  dividendYield: number;
-}
+import { CompanyInfo } from "@/types"; // Import CompanyInfo from types
 
 interface StockDetailsProps {
   companyInfo: CompanyInfo;

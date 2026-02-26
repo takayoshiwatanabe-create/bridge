@@ -49,6 +49,18 @@ export interface PortfolioSummary {
 }
 
 /**
+ * Represents detailed company information.
+ */
+export interface CompanyInfo {
+  description: string;
+  sector: string;
+  industry: string;
+  marketCap: number;
+  peRatio: number;
+  dividendYield: number;
+}
+
+/**
  * Represents a user's profile.
  */
 export interface UserProfile {

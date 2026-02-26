@@ -1,7 +1,13 @@
 import * as Localization from "expo-localization";
-import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations"; // Import SUPPORTED_LANGUAGES
+import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations";
+import { I18nContext } from "./I18nContext"; // Import I18nContext
 
-// This function will be called from LanguageSelector to change the app language
+// This function is intended to be called from outside the provider to change language
+// It needs to interact with the provider's state.
+// A more robust solution might involve a global state manager or a custom hook
+// that exposes this function from the provider.
+// For now, we'll keep the `_setAppLanguage` pattern as it was in the original code,
+// but acknowledge its limitations and potential for being called before initialization.
 let _setAppLanguage: ((lang: Language) => void) | null = null;
 export function setAppLanguage(lang: Language) {
   if (_setAppLanguage) {
@@ -14,7 +20,6 @@ export function setAppLanguage(lang: Language) {
 export function getDeviceLanguage(): Language {
   try {
     const locales = Localization.getLocales();
-    // Use `languageCode` for BCP 47 language tag without region, e.g., "en" from "en-US"
     const deviceLang = locales[0]?.languageCode;
     if (deviceLang && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLang)) {
       return deviceLang as Language;
@@ -25,14 +30,17 @@ export function getDeviceLanguage(): Language {
   }
 }
 
+// These functions are generally not needed if using the I18nContext hook directly
+// in components. They might be useful for server-side rendering or non-React contexts.
+// However, given this is an Expo React Native project, the Context API is the primary way.
+// Keeping them for now as they were part of the original structure, but they are
+// effectively superseded by the context values.
 export function createTranslator(currentLang: Language) {
   return (key: string, vars?: Record<string, string | number>): string => {
     const dict = translations[currentLang] ?? translations.ja;
     let text = dict[key] ?? translations.ja[key] ?? key;
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
-        // Use a more robust regex to ensure only whole words are replaced,
-        // or specific placeholders like {{key}}
         text = text.replace(new RegExp(`{{\\s*${k}\\s*}}`, "g"), String(v));
       }
     }
@@ -40,8 +48,6 @@ export function createTranslator(currentLang: Language) {
   };
 }
 
-// Export Intl objects for number and date formatting
-// Ensure these are initialized with the determined 'lang'
 export function createNumberFormatter(currentLang: Language): Intl.NumberFormat {
   return new Intl.NumberFormat(currentLang);
 }
@@ -53,16 +59,11 @@ export function createDateTimeFormatter(currentLang: Language): Intl.DateTimeFor
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
+    hour12: false,
   });
 }
 
-// For direct use in non-React contexts or for initial setup if needed,
-// though I18nProvider is the primary way to get these.
-// These exports are for initial setup/default values, the context provides dynamic ones.
-export const lang = getDeviceLanguage();
-export const isRTL = ["ar"].includes(lang);
-export const t = createTranslator(lang);
-export const numberFormatter = createNumberFormatter(lang);
-export const dateTimeFormatter = createDateTimeFormatter(lang);
-
-
+// Re-export I18nContext and I18nProvider for easier access
+export { I18nContext } from "./I18nContext";
+export { I18nProvider } from "./I18nProvider";
+export type { Language } from "./translations";

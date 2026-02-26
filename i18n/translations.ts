@@ -1,34 +1,52 @@
-export type Language =
-  | "ja"
-  | "en"
-  | "zh"
-  | "ko"
-  | "es"
-  | "fr"
-  | "de"
-  | "pt"
-  | "ar"
-  | "hi";
+// i18n/translations.ts
 
-export const SUPPORTED_LANGUAGES: Language[] = ["ja", "en", "zh", "ko", "es", "fr", "de", "pt", "ar", "hi"];
+export const SUPPORTED_LANGUAGES = [
+  "ja",
+  "en",
+  "zh",
+  "ko",
+  "es",
+  "fr",
+  "de",
+  "pt",
+  "ar",
+  "hi",
+] as const;
 
-type TranslationDictionary = {
+export type Language = (typeof SUPPORTED_LANGUAGES)[number];
+
+type TranslationKeys = {
   [key: string]: string;
 };
 
 type Translations = {
-  [lang in Language]: TranslationDictionary;
+  [lang in Language]: TranslationKeys;
 };
 
 export const translations: Translations = {
   ja: {
-    "home.title": "Bridgeへようこそ",
+    // Common
+    "common.loading": "読み込み中...",
+    "common.error_loading_data": "データの読み込み中にエラーが発生しました。",
+    "common.disclaimer_badge": "本アプリは投資助言ではありません",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}}分遅延",
+    "common.realtime": "リアルタイム",
+    "common.na": "N/A",
+    "common.trillion": "兆",
+    "common.billion": "億",
+    "common.million": "百万",
+
+    // Home Screen
+    "home.title": "Bridge",
     "home.subtitle": "投資家と真実の間にある距離をゼロにする",
+
+    // Auth
     "auth.login.title": "ログイン",
     "auth.signup.title": "新規登録",
     "auth.email_placeholder": "メールアドレス",
     "auth.password_placeholder": "パスワード",
-    "auth.confirm_password_placeholder": "パスワードを再入力",
+    "auth.confirm_password_placeholder": "パスワード（確認用）",
     "auth.login_button": "ログイン",
     "auth.signup_button": "新規登録",
     "auth.or_separator": "または",
@@ -36,50 +54,53 @@ export const translations: Translations = {
     "auth.oauth_apple": "Appleで{{action}}",
     "auth.login_action": "ログイン",
     "auth.signup_action": "登録",
-    "auth.error.empty_fields": "メールアドレスとパスワードを入力してください。",
+    "auth.error.empty_fields": "すべてのフィールドを入力してください。",
     "auth.error.invalid_email": "無効なメールアドレスです。",
     "auth.error.password_mismatch": "パスワードが一致しません。",
     "auth.error.password_too_short": "パスワードは8文字以上である必要があります。",
-    "common.disclaimer_badge": "本アプリは投資助言ではありません。データは遅延する場合があります。",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}}分遅延", // New key
-    "common.realtime": "リアルタイム",
-    "common.na": "N/A", // Added for missing data
-    "common.trillion": "兆",
-    "common.billion": "億",
-    "common.million": "百万",
-    "common.loading": "読み込み中...",
-    "common.error_loading_data": "データの読み込み中にエラーが発生しました。",
+
+    // Portfolio Screen
     "portfolio.title": "ポートフォリオ",
-    "portfolio.my_portfolio": "私のポートフォリオ",
-    "portfolio.summary.total_value": "合計評価額",
-    "portfolio.summary.total_gain_loss": "合計損益",
-    "portfolio.summary.total_gain_loss_percent": "合計損益率",
+    "portfolio.my_portfolio": "マイポートフォリオ",
+    "portfolio.summary.total_value": "総資産評価額",
+    "portfolio.summary.total_gain_loss": "評価損益",
+    "portfolio.summary.total_gain_loss_percent": "評価損益率",
     "portfolio.holdings": "保有銘柄",
     "portfolio.stock_list.quantity": "数量",
     "portfolio.stock_list.avg_price": "平均取得単価",
     "portfolio.stock_list.current_price": "現在値",
-    "portfolio.stock_list.change": "変動",
-    "portfolio.stock_list.market_value": "評価額",
-    "portfolio.stock_list.gain_loss": "損益",
+    "portfolio.stock_list.change": "前日比",
+    "portfolio.stock_list.market_value": "時価評価額",
+    "portfolio.stock_list.gain_loss": "評価損益",
     "portfolio.stock_list.empty": "保有銘柄がありません。",
+
+    // Search Screen
+    "search.title": "銘柄検索",
+    "search.placeholder": "銘柄名またはティッカーシンボルを検索",
+    "search.no_results": "検索結果が見つかりませんでした。",
+
+    // Stock Detail Screen
     "stock_detail.title": "銘柄詳細",
-    "stock_detail.error.no_symbol": "銘柄シンボルが指定されていません。",
     "stock_detail.chart_title": "株価チャート",
-    "stock_detail.chart_placeholder": "チャート表示エリア",
+    "stock_detail.chart_placeholder": "チャートはここに表示されます",
     "stock_detail.company_info_title": "企業情報",
-    "stock_detail.company_description_placeholder": "{{symbol}}は、世界をリードするテクノロジー企業であり、スマートフォン、パーソナルコンピュータ、タブレット、ウェアラブル、アクセサリーなどの設計、製造、販売を行っています。",
     "stock_detail.company_info.sector": "セクター",
     "stock_detail.company_info.industry": "業種",
     "stock_detail.company_info.market_cap": "時価総額",
     "stock_detail.company_info.pe_ratio": "PER",
     "stock_detail.company_info.dividend_yield": "配当利回り",
+    "stock_detail.company_description_placeholder": "{{symbol}}は、世界をリードするテクノロジー企業です。革新的な製品とサービスを通じて、人々の生活を豊かにすることを目指しています。",
+    "stock_detail.error.no_symbol": "銘柄シンボルが指定されていません。",
+
+    // Settings Screen
     "settings.title": "設定",
     "settings.language_settings": "言語設定",
     "settings.legal_info": "法的情報",
     "settings.privacy_policy": "プライバシーポリシー",
     "settings.terms_of_service": "利用規約",
     "settings.app_version": "アプリバージョン",
+
+    // Language names
     "language.ja": "日本語",
     "language.en": "English",
     "language.zh": "中文",
@@ -92,8 +113,23 @@ export const translations: Translations = {
     "language.hi": "हिन्दी",
   },
   en: {
-    "home.title": "Welcome to Bridge",
-    "home.subtitle": "Bridging the gap between investors and truth",
+    // Common
+    "common.loading": "Loading...",
+    "common.error_loading_data": "An error occurred while loading data.",
+    "common.disclaimer_badge": "This app is not investment advice",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} min delay",
+    "common.realtime": "Real-time",
+    "common.na": "N/A",
+    "common.trillion": "Trillion",
+    "common.billion": "Billion",
+    "common.million": "Million",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "Zero the distance between investors and truth",
+
+    // Auth
     "auth.login.title": "Login",
     "auth.signup.title": "Sign Up",
     "auth.email_placeholder": "Email",
@@ -106,25 +142,17 @@ export const translations: Translations = {
     "auth.oauth_apple": "{{action}} with Apple",
     "auth.login_action": "Login",
     "auth.signup_action": "Sign Up",
-    "auth.error.empty_fields": "Please enter email and password.",
+    "auth.error.empty_fields": "Please fill in all fields.",
     "auth.error.invalid_email": "Invalid email address.",
     "auth.error.password_mismatch": "Passwords do not match.",
     "auth.error.password_too_short": "Password must be at least 8 characters long.",
-    "common.disclaimer_badge": "This app is not investment advice. Data may be delayed.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} minutes delay", // New key
-    "common.realtime": "Real-time",
-    "common.na": "N/A",
-    "common.trillion": "Trillion",
-    "common.billion": "Billion",
-    "common.million": "Million",
-    "common.loading": "Loading...",
-    "common.error_loading_data": "Error loading data.",
+
+    // Portfolio Screen
     "portfolio.title": "Portfolio",
     "portfolio.my_portfolio": "My Portfolio",
-    "portfolio.summary.total_value": "Total Value",
+    "portfolio.summary.total_value": "Total Portfolio Value",
     "portfolio.summary.total_gain_loss": "Total Gain/Loss",
-    "portfolio.summary.total_gain_loss_percent": "Total Gain/Loss (%)",
+    "portfolio.summary.total_gain_loss_percent": "Total Gain/Loss %",
     "portfolio.holdings": "Holdings",
     "portfolio.stock_list.quantity": "Quantity",
     "portfolio.stock_list.avg_price": "Avg. Price",
@@ -132,24 +160,35 @@ export const translations: Translations = {
     "portfolio.stock_list.change": "Change",
     "portfolio.stock_list.market_value": "Market Value",
     "portfolio.stock_list.gain_loss": "Gain/Loss",
-    "portfolio.stock_list.empty": "No holdings found.",
+    "portfolio.stock_list.empty": "No holdings in your portfolio.",
+
+    // Search Screen
+    "search.title": "Search Stocks",
+    "search.placeholder": "Search by stock name or ticker symbol",
+    "search.no_results": "No search results found.",
+
+    // Stock Detail Screen
     "stock_detail.title": "Stock Details",
-    "stock_detail.error.no_symbol": "Stock symbol not specified.",
-    "stock_detail.chart_title": "Stock Chart",
-    "stock_detail.chart_placeholder": "Chart Display Area",
+    "stock_detail.chart_title": "Price Chart",
+    "stock_detail.chart_placeholder": "Chart will be displayed here",
     "stock_detail.company_info_title": "Company Information",
-    "stock_detail.company_description_placeholder": "{{symbol}} is a leading global technology company that designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories.",
     "stock_detail.company_info.sector": "Sector",
     "stock_detail.company_info.industry": "Industry",
     "stock_detail.company_info.market_cap": "Market Cap",
     "stock_detail.company_info.pe_ratio": "P/E Ratio",
     "stock_detail.company_info.dividend_yield": "Dividend Yield",
+    "stock_detail.company_description_placeholder": "{{symbol}} is a leading technology company globally. It aims to enrich people's lives through innovative products and services.",
+    "stock_detail.error.no_symbol": "No stock symbol provided.",
+
+    // Settings Screen
     "settings.title": "Settings",
     "settings.language_settings": "Language Settings",
     "settings.legal_info": "Legal Information",
     "settings.privacy_policy": "Privacy Policy",
     "settings.terms_of_service": "Terms of Service",
     "settings.app_version": "App Version",
+
+    // Language names
     "language.ja": "Japanese",
     "language.en": "English",
     "language.zh": "Chinese",
@@ -162,8 +201,23 @@ export const translations: Translations = {
     "language.hi": "Hindi",
   },
   zh: {
-    "home.title": "欢迎来到 Bridge",
+    // Common
+    "common.loading": "加载中...",
+    "common.error_loading_data": "加载数据时发生错误。",
+    "common.disclaimer_badge": "本应用不构成投资建议",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}}分钟延迟",
+    "common.realtime": "实时",
+    "common.na": "不适用",
+    "common.trillion": "万亿",
+    "common.billion": "十亿",
+    "common.million": "百万",
+
+    // Home Screen
+    "home.title": "Bridge",
     "home.subtitle": "消除投资者与真相之间的距离",
+
+    // Auth
     "auth.login.title": "登录",
     "auth.signup.title": "注册",
     "auth.email_placeholder": "电子邮件",
@@ -172,54 +226,57 @@ export const translations: Translations = {
     "auth.login_button": "登录",
     "auth.signup_button": "注册",
     "auth.or_separator": "或",
-    "auth.oauth_google": "使用 Google {{action}}",
-    "auth.oauth_apple": "使用 Apple {{action}}",
+    "auth.oauth_google": "使用Google{{action}}",
+    "auth.oauth_apple": "使用Apple{{action}}",
     "auth.login_action": "登录",
     "auth.signup_action": "注册",
-    "auth.error.empty_fields": "请输入电子邮件和密码。",
+    "auth.error.empty_fields": "请填写所有字段。",
     "auth.error.invalid_email": "无效的电子邮件地址。",
     "auth.error.password_mismatch": "密码不匹配。",
     "auth.error.password_too_short": "密码长度至少为8个字符。",
-    "common.disclaimer_badge": "本应用不构成投资建议。数据可能存在延迟。",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} 分钟延迟", // New key
-    "common.realtime": "实时",
-    "common.na": "不适用",
-    "common.trillion": "万亿",
-    "common.billion": "十亿",
-    "common.million": "百万",
-    "common.loading": "加载中...",
-    "common.error_loading_data": "加载数据时出错。",
+
+    // Portfolio Screen
     "portfolio.title": "投资组合",
     "portfolio.my_portfolio": "我的投资组合",
-    "portfolio.summary.total_value": "总价值",
+    "portfolio.summary.total_value": "总投资组合价值",
     "portfolio.summary.total_gain_loss": "总盈亏",
-    "portfolio.summary.total_gain_loss_percent": "总盈亏 (%)",
+    "portfolio.summary.total_gain_loss_percent": "总盈亏百分比",
     "portfolio.holdings": "持仓",
     "portfolio.stock_list.quantity": "数量",
     "portfolio.stock_list.avg_price": "平均成本",
     "portfolio.stock_list.current_price": "当前价格",
-    "portfolio.stock_list.change": "变动",
+    "portfolio.stock_list.change": "涨跌幅",
     "portfolio.stock_list.market_value": "市值",
     "portfolio.stock_list.gain_loss": "盈亏",
-    "portfolio.stock_list.empty": "未找到持仓。",
+    "portfolio.stock_list.empty": "您的投资组合中没有持仓。",
+
+    // Search Screen
+    "search.title": "股票搜索",
+    "search.placeholder": "按股票名称或代码搜索",
+    "search.no_results": "未找到搜索结果。",
+
+    // Stock Detail Screen
     "stock_detail.title": "股票详情",
-    "stock_detail.error.no_symbol": "未指定股票代码。",
-    "stock_detail.chart_title": "股票图表",
-    "stock_detail.chart_placeholder": "图表显示区域",
+    "stock_detail.chart_title": "价格图表",
+    "stock_detail.chart_placeholder": "图表将在此处显示",
     "stock_detail.company_info_title": "公司信息",
-    "stock_detail.company_description_placeholder": "{{symbol}} 是一家全球领先的科技公司，设计、制造和销售智能手机、个人电脑、平板电脑、可穿戴设备和配件。",
     "stock_detail.company_info.sector": "行业",
-    "stock_detail.company_info.industry": "产业",
+    "stock_detail.company_info.industry": "子行业",
     "stock_detail.company_info.market_cap": "市值",
     "stock_detail.company_info.pe_ratio": "市盈率",
     "stock_detail.company_info.dividend_yield": "股息收益率",
+    "stock_detail.company_description_placeholder": "{{symbol}}是一家全球领先的科技公司。它旨在通过创新产品和服务丰富人们的生活。",
+    "stock_detail.error.no_symbol": "未提供股票代码。",
+
+    // Settings Screen
     "settings.title": "设置",
     "settings.language_settings": "语言设置",
     "settings.legal_info": "法律信息",
     "settings.privacy_policy": "隐私政策",
     "settings.terms_of_service": "服务条款",
     "settings.app_version": "应用版本",
+
+    // Language names
     "language.ja": "日语",
     "language.en": "英语",
     "language.zh": "中文",
@@ -232,8 +289,23 @@ export const translations: Translations = {
     "language.hi": "印地语",
   },
   ko: {
-    "home.title": "Bridge에 오신 것을 환영합니다",
+    // Common
+    "common.loading": "로딩 중...",
+    "common.error_loading_data": "데이터 로딩 중 오류가 발생했습니다.",
+    "common.disclaimer_badge": "본 앱은 투자 조언이 아닙니다",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}}분 지연",
+    "common.realtime": "실시간",
+    "common.na": "해당 없음",
+    "common.trillion": "조",
+    "common.billion": "억",
+    "common.million": "백만",
+
+    // Home Screen
+    "home.title": "Bridge",
     "home.subtitle": "투자자와 진실 사이의 거리를 0으로 만듭니다",
+
+    // Auth
     "auth.login.title": "로그인",
     "auth.signup.title": "회원가입",
     "auth.email_placeholder": "이메일",
@@ -245,26 +317,18 @@ export const translations: Translations = {
     "auth.oauth_google": "Google로 {{action}}",
     "auth.oauth_apple": "Apple로 {{action}}",
     "auth.login_action": "로그인",
-    "auth.signup_action": "회원가입",
-    "auth.error.empty_fields": "이메일과 비밀번호를 입력해주세요.",
+    "auth.signup_action": "가입",
+    "auth.error.empty_fields": "모든 필드를 입력해주세요.",
     "auth.error.invalid_email": "유효하지 않은 이메일 주소입니다.",
     "auth.error.password_mismatch": "비밀번호가 일치하지 않습니다.",
     "auth.error.password_too_short": "비밀번호는 8자 이상이어야 합니다.",
-    "common.disclaimer_badge": "이 앱은 투자 조언이 아닙니다. 데이터가 지연될 수 있습니다.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}}분 지연", // New key
-    "common.realtime": "실시간",
-    "common.na": "해당 없음",
-    "common.trillion": "조",
-    "common.billion": "억",
-    "common.million": "백만",
-    "common.loading": "로딩 중...",
-    "common.error_loading_data": "데이터 로딩 중 오류가 발생했습니다.",
+
+    // Portfolio Screen
     "portfolio.title": "포트폴리오",
     "portfolio.my_portfolio": "내 포트폴리오",
-    "portfolio.summary.total_value": "총 평가액",
+    "portfolio.summary.total_value": "총 포트폴리오 가치",
     "portfolio.summary.total_gain_loss": "총 손익",
-    "portfolio.summary.total_gain_loss_percent": "총 손익률 (%)",
+    "portfolio.summary.total_gain_loss_percent": "총 손익률",
     "portfolio.holdings": "보유 종목",
     "portfolio.stock_list.quantity": "수량",
     "portfolio.stock_list.avg_price": "평균 단가",
@@ -272,24 +336,35 @@ export const translations: Translations = {
     "portfolio.stock_list.change": "변동",
     "portfolio.stock_list.market_value": "시장 가치",
     "portfolio.stock_list.gain_loss": "손익",
-    "portfolio.stock_list.empty": "보유 종목이 없습니다.",
+    "portfolio.stock_list.empty": "포트폴리오에 보유 종목이 없습니다.",
+
+    // Search Screen
+    "search.title": "종목 검색",
+    "search.placeholder": "종목명 또는 티커 심볼로 검색",
+    "search.no_results": "검색 결과가 없습니다.",
+
+    // Stock Detail Screen
     "stock_detail.title": "종목 상세",
-    "stock_detail.error.no_symbol": "종목 심볼이 지정되지 않았습니다.",
-    "stock_detail.chart_title": "주식 차트",
-    "stock_detail.chart_placeholder": "차트 표시 영역",
+    "stock_detail.chart_title": "가격 차트",
+    "stock_detail.chart_placeholder": "차트가 여기에 표시됩니다",
     "stock_detail.company_info_title": "기업 정보",
-    "stock_detail.company_description_placeholder": "{{symbol}}은 스마트폰, 개인용 컴퓨터, 태블릿, 웨어러블 및 액세서리 등을 설계, 제조 및 판매하는 세계적인 기술 기업입니다.",
     "stock_detail.company_info.sector": "섹터",
     "stock_detail.company_info.industry": "산업",
     "stock_detail.company_info.market_cap": "시가총액",
     "stock_detail.company_info.pe_ratio": "PER",
-    "stock_detail.company_info.dividend_yield": "배당수익률",
+    "stock_detail.company_info.dividend_yield": "배당 수익률",
+    "stock_detail.company_description_placeholder": "{{symbol}}은 세계를 선도하는 기술 기업입니다. 혁신적인 제품과 서비스를 통해 사람들의 삶을 풍요롭게 하는 것을 목표로 합니다.",
+    "stock_detail.error.no_symbol": "종목 심볼이 제공되지 않았습니다.",
+
+    // Settings Screen
     "settings.title": "설정",
     "settings.language_settings": "언어 설정",
-    "settings.legal_info": "법률 정보",
+    "settings.legal_info": "법적 정보",
     "settings.privacy_policy": "개인정보처리방침",
     "settings.terms_of_service": "서비스 약관",
     "settings.app_version": "앱 버전",
+
+    // Language names
     "language.ja": "일본어",
     "language.en": "영어",
     "language.zh": "중국어",
@@ -302,8 +377,23 @@ export const translations: Translations = {
     "language.hi": "힌디어",
   },
   es: {
-    "home.title": "Bienvenido a Bridge",
-    "home.subtitle": "Acortando la distancia entre inversores y la verdad",
+    // Common
+    "common.loading": "Cargando...",
+    "common.error_loading_data": "Ocurrió un error al cargar los datos.",
+    "common.disclaimer_badge": "Esta aplicación no es asesoramiento de inversión",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} min de retraso",
+    "common.realtime": "Tiempo real",
+    "common.na": "N/D",
+    "common.trillion": "Billón",
+    "common.billion": "Mil millones",
+    "common.million": "Millón",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "Acorta la distancia entre inversores y la verdad",
+
+    // Auth
     "auth.login.title": "Iniciar sesión",
     "auth.signup.title": "Registrarse",
     "auth.email_placeholder": "Correo electrónico",
@@ -316,50 +406,53 @@ export const translations: Translations = {
     "auth.oauth_apple": "{{action}} con Apple",
     "auth.login_action": "Iniciar sesión",
     "auth.signup_action": "Registrarse",
-    "auth.error.empty_fields": "Por favor, introduce tu correo electrónico y contraseña.",
+    "auth.error.empty_fields": "Por favor, rellene todos los campos.",
     "auth.error.invalid_email": "Dirección de correo electrónico no válida.",
     "auth.error.password_mismatch": "Las contraseñas no coinciden.",
     "auth.error.password_too_short": "La contraseña debe tener al menos 8 caracteres.",
-    "common.disclaimer_badge": "Esta aplicación no es asesoramiento de inversión. Los datos pueden estar retrasados.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} minutos de retraso", // New key
-    "common.realtime": "Tiempo real",
-    "common.na": "N/A",
-    "common.trillion": "Billón",
-    "common.billion": "Mil millones",
-    "common.million": "Millón",
-    "common.loading": "Cargando...",
-    "common.error_loading_data": "Error al cargar los datos.",
+
+    // Portfolio Screen
     "portfolio.title": "Cartera",
     "portfolio.my_portfolio": "Mi Cartera",
-    "portfolio.summary.total_value": "Valor Total",
-    "portfolio.summary.total_gain_loss": "Ganancia/Pérdida Total",
-    "portfolio.summary.total_gain_loss_percent": "Ganancia/Pérdida Total (%)",
+    "portfolio.summary.total_value": "Valor total de la cartera",
+    "portfolio.summary.total_gain_loss": "Ganancia/Pérdida total",
+    "portfolio.summary.total_gain_loss_percent": "% de Ganancia/Pérdida total",
     "portfolio.holdings": "Posiciones",
     "portfolio.stock_list.quantity": "Cantidad",
-    "portfolio.stock_list.avg_price": "Precio Promedio",
-    "portfolio.stock_list.current_price": "Precio Actual",
+    "portfolio.stock_list.avg_price": "Precio medio",
+    "portfolio.stock_list.current_price": "Precio actual",
     "portfolio.stock_list.change": "Cambio",
-    "portfolio.stock_list.market_value": "Valor de Mercado",
+    "portfolio.stock_list.market_value": "Valor de mercado",
     "portfolio.stock_list.gain_loss": "Ganancia/Pérdida",
-    "portfolio.stock_list.empty": "No se encontraron posiciones.",
-    "stock_detail.title": "Detalles de la Acción",
-    "stock_detail.error.no_symbol": "Símbolo de acción no especificado.",
-    "stock_detail.chart_title": "Gráfico de Acciones",
-    "stock_detail.chart_placeholder": "Área de visualización del gráfico",
-    "stock_detail.company_info_title": "Información de la Empresa",
-    "stock_detail.company_description_placeholder": "{{symbol}} es una empresa de tecnología líder a nivel mundial que diseña, fabrica y comercializa teléfonos inteligentes, computadoras personales, tabletas, wearables y accesorios.",
+    "portfolio.stock_list.empty": "No hay posiciones en su cartera.",
+
+    // Search Screen
+    "search.title": "Buscar acciones",
+    "search.placeholder": "Buscar por nombre de acción o símbolo",
+    "search.no_results": "No se encontraron resultados de búsqueda.",
+
+    // Stock Detail Screen
+    "stock_detail.title": "Detalles de la acción",
+    "stock_detail.chart_title": "Gráfico de precios",
+    "stock_detail.chart_placeholder": "El gráfico se mostrará aquí",
+    "stock_detail.company_info_title": "Información de la empresa",
     "stock_detail.company_info.sector": "Sector",
     "stock_detail.company_info.industry": "Industria",
-    "stock_detail.company_info.market_cap": "Capitalización de Mercado",
+    "stock_detail.company_info.market_cap": "Capitalización de mercado",
     "stock_detail.company_info.pe_ratio": "Ratio P/E",
-    "stock_detail.company_info.dividend_yield": "Rendimiento por Dividendo",
+    "stock_detail.company_info.dividend_yield": "Rentabilidad por dividendo",
+    "stock_detail.company_description_placeholder": "{{symbol}} es una empresa tecnológica líder a nivel mundial. Su objetivo es enriquecer la vida de las personas a través de productos y servicios innovadores.",
+    "stock_detail.error.no_symbol": "No se proporcionó el símbolo de la acción.",
+
+    // Settings Screen
     "settings.title": "Configuración",
-    "settings.language_settings": "Configuración de Idioma",
-    "settings.legal_info": "Información Legal",
-    "settings.privacy_policy": "Política de Privacidad",
-    "settings.terms_of_service": "Términos de Servicio",
-    "settings.app_version": "Versión de la Aplicación",
+    "settings.language_settings": "Configuración de idioma",
+    "settings.legal_info": "Información legal",
+    "settings.privacy_policy": "Política de privacidad",
+    "settings.terms_of_service": "Términos de servicio",
+    "settings.app_version": "Versión de la aplicación",
+
+    // Language names
     "language.ja": "Japonés",
     "language.en": "Inglés",
     "language.zh": "Chino",
@@ -372,8 +465,23 @@ export const translations: Translations = {
     "language.hi": "Hindi",
   },
   fr: {
-    "home.title": "Bienvenue sur Bridge",
-    "home.subtitle": "Réduire la distance entre les investisseurs et la vérité",
+    // Common
+    "common.loading": "Chargement...",
+    "common.error_loading_data": "Une erreur est survenue lors du chargement des données.",
+    "common.disclaimer_badge": "Cette application n'est pas un conseil en investissement",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} min de délai",
+    "common.realtime": "Temps réel",
+    "common.na": "N/A",
+    "common.trillion": "Billion",
+    "common.billion": "Milliard",
+    "common.million": "Million",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "Réduire à zéro la distance entre les investisseurs et la vérité",
+
+    // Auth
     "auth.login.title": "Connexion",
     "auth.signup.title": "Inscription",
     "auth.email_placeholder": "E-mail",
@@ -386,64 +494,82 @@ export const translations: Translations = {
     "auth.oauth_apple": "{{action}} avec Apple",
     "auth.login_action": "Se connecter",
     "auth.signup_action": "S'inscrire",
-    "auth.error.empty_fields": "Veuillez saisir votre e-mail et votre mot de passe.",
+    "auth.error.empty_fields": "Veuillez remplir tous les champs.",
     "auth.error.invalid_email": "Adresse e-mail invalide.",
     "auth.error.password_mismatch": "Les mots de passe ne correspondent pas.",
     "auth.error.password_too_short": "Le mot de passe doit contenir au moins 8 caractères.",
-    "common.disclaimer_badge": "Cette application n'est pas un conseil en investissement. Les données peuvent être retardées.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} minutes de retard", // New key
-    "common.realtime": "Temps réel",
-    "common.na": "N/A",
-    "common.trillion": "Billion",
-    "common.billion": "Milliard",
-    "common.million": "Million",
-    "common.loading": "Chargement...",
-    "common.error_loading_data": "Erreur lors du chargement des données.",
+
+    // Portfolio Screen
     "portfolio.title": "Portefeuille",
     "portfolio.my_portfolio": "Mon Portefeuille",
-    "portfolio.summary.total_value": "Valeur Totale",
-    "portfolio.summary.total_gain_loss": "Gain/Perte Total",
-    "portfolio.summary.total_gain_loss_percent": "Gain/Perte Total (%)",
+    "portfolio.summary.total_value": "Valeur totale du portefeuille",
+    "portfolio.summary.total_gain_loss": "Gain/Perte total",
+    "portfolio.summary.total_gain_loss_percent": "% de Gain/Perte total",
     "portfolio.holdings": "Positions",
     "portfolio.stock_list.quantity": "Quantité",
-    "portfolio.stock_list.avg_price": "Prix Moyen",
-    "portfolio.stock_list.current_price": "Prix Actuel",
+    "portfolio.stock_list.avg_price": "Prix moyen",
+    "portfolio.stock_list.current_price": "Prix actuel",
     "portfolio.stock_list.change": "Changement",
-    "portfolio.stock_list.market_value": "Valeur Marchande",
+    "portfolio.stock_list.market_value": "Valeur marchande",
     "portfolio.stock_list.gain_loss": "Gain/Perte",
-    "portfolio.stock_list.empty": "Aucune position trouvée.",
-    "stock_detail.title": "Détails de l'Action",
-    "stock_detail.error.no_symbol": "Symbole de l'action non spécifié.",
-    "stock_detail.chart_title": "Graphique Boursier",
-    "stock_detail.chart_placeholder": "Zone d'affichage du graphique",
-    "stock_detail.company_info_title": "Informations sur l'Entreprise",
-    "stock_detail.company_description_placeholder": "{{symbol}} est une entreprise technologique mondiale de premier plan qui conçoit, fabrique et commercialise des smartphones, des ordinateurs personnels, des tablettes, des objets connectés et des accessoires.",
+    "portfolio.stock_list.empty": "Aucune position dans votre portefeuille.",
+
+    // Search Screen
+    "search.title": "Rechercher des actions",
+    "search.placeholder": "Rechercher par nom d'action ou symbole boursier",
+    "search.no_results": "Aucun résultat de recherche trouvé.",
+
+    // Stock Detail Screen
+    "stock_detail.title": "Détails de l'action",
+    "stock_detail.chart_title": "Graphique des prix",
+    "stock_detail.chart_placeholder": "Le graphique sera affiché ici",
+    "stock_detail.company_info_title": "Informations sur l'entreprise",
     "stock_detail.company_info.sector": "Secteur",
     "stock_detail.company_info.industry": "Industrie",
-    "stock_detail.company_info.market_cap": "Capitalisation Boursière",
+    "stock_detail.company_info.market_cap": "Capitalisation boursière",
     "stock_detail.company_info.pe_ratio": "Ratio C/B",
-    "stock_detail.company_info.dividend_yield": "Rendement du Dividende",
+    "stock_detail.company_info.dividend_yield": "Rendement du dividende",
+    "stock_detail.company_description_placeholder": "{{symbol}} est une entreprise technologique de premier plan mondial. Elle vise à enrichir la vie des gens grâce à des produits et services innovants.",
+    "stock_detail.error.no_symbol": "Aucun symbole d'action fourni.",
+
+    // Settings Screen
     "settings.title": "Paramètres",
-    "settings.language_settings": "Paramètres de Langue",
-    "settings.legal_info": "Informations Légales",
-    "settings.privacy_policy": "Politique de Confidentialité",
-    "settings.terms_of_service": "Conditions d'Utilisation",
-    "settings.app_version": "Version de l'Application",
+    "settings.language_settings": "Paramètres de langue",
+    "settings.legal_info": "Informations légales",
+    "settings.privacy_policy": "Politique de confidentialité",
+    "settings.terms_of_service": "Conditions d'utilisation",
+    "settings.app_version": "Version de l'application",
+
+    // Language names
     "language.ja": "Japonais",
     "language.en": "Anglais",
     "language.zh": "Chinois",
     "language.ko": "Coréen",
     "language.es": "Espagnol",
     "language.fr": "Français",
-    "language.de": "Alemán",
-    "language.pt": "Portugués",
+    "language.de": "Allemand",
+    "language.pt": "Portugais",
     "language.ar": "Arabe",
     "language.hi": "Hindi",
   },
   de: {
-    "home.title": "Willkommen bei Bridge",
-    "home.subtitle": "Die Lücke zwischen Investoren und Wahrheit schließen",
+    // Common
+    "common.loading": "Wird geladen...",
+    "common.error_loading_data": "Beim Laden der Daten ist ein Fehler aufgetreten.",
+    "common.disclaimer_badge": "Diese App ist keine Anlageberatung",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} Min. Verzögerung",
+    "common.realtime": "Echtzeit",
+    "common.na": "N/A",
+    "common.trillion": "Billion",
+    "common.billion": "Milliarde",
+    "common.million": "Million",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "Die Distanz zwischen Investoren und Wahrheit auf Null reduzieren",
+
+    // Auth
     "auth.login.title": "Anmelden",
     "auth.signup.title": "Registrieren",
     "auth.email_placeholder": "E-Mail",
@@ -456,25 +582,17 @@ export const translations: Translations = {
     "auth.oauth_apple": "{{action}} mit Apple",
     "auth.login_action": "Anmelden",
     "auth.signup_action": "Registrieren",
-    "auth.error.empty_fields": "Bitte geben Sie E-Mail und Passwort ein.",
+    "auth.error.empty_fields": "Bitte füllen Sie alle Felder aus.",
     "auth.error.invalid_email": "Ungültige E-Mail-Adresse.",
     "auth.error.password_mismatch": "Passwörter stimmen nicht überein.",
     "auth.error.password_too_short": "Das Passwort muss mindestens 8 Zeichen lang sein.",
-    "common.disclaimer_badge": "Diese App ist keine Anlageberatung. Daten können verzögert sein.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} Minuten Verzögerung", // New key
-    "common.realtime": "Echtzeit",
-    "common.na": "N/A",
-    "common.trillion": "Billion",
-    "common.billion": "Milliarde",
-    "common.million": "Million",
-    "common.loading": "Laden...",
-    "common.error_loading_data": "Fehler beim Laden der Daten.",
+
+    // Portfolio Screen
     "portfolio.title": "Portfolio",
     "portfolio.my_portfolio": "Mein Portfolio",
-    "portfolio.summary.total_value": "Gesamtwert",
+    "portfolio.summary.total_value": "Gesamtwert des Portfolios",
     "portfolio.summary.total_gain_loss": "Gesamtgewinn/-verlust",
-    "portfolio.summary.total_gain_loss_percent": "Gesamtgewinn/-verlust (%)",
+    "portfolio.summary.total_gain_loss_percent": "Gesamtgewinn/-verlust %",
     "portfolio.holdings": "Bestände",
     "portfolio.stock_list.quantity": "Menge",
     "portfolio.stock_list.avg_price": "Durchschn. Preis",
@@ -482,24 +600,35 @@ export const translations: Translations = {
     "portfolio.stock_list.change": "Änderung",
     "portfolio.stock_list.market_value": "Marktwert",
     "portfolio.stock_list.gain_loss": "Gewinn/Verlust",
-    "portfolio.stock_list.empty": "Keine Bestände gefunden.",
+    "portfolio.stock_list.empty": "Keine Bestände in Ihrem Portfolio.",
+
+    // Search Screen
+    "search.title": "Aktien suchen",
+    "search.placeholder": "Nach Aktiennamen oder Tickersymbol suchen",
+    "search.no_results": "Keine Suchergebnisse gefunden.",
+
+    // Stock Detail Screen
     "stock_detail.title": "Aktien Details",
-    "stock_detail.error.no_symbol": "Aktiensymbol nicht angegeben.",
-    "stock_detail.chart_title": "Aktienchart",
-    "stock_detail.chart_placeholder": "Chart-Anzeigebereich",
+    "stock_detail.chart_title": "Preischart",
+    "stock_detail.chart_placeholder": "Diagramm wird hier angezeigt",
     "stock_detail.company_info_title": "Unternehmensinformationen",
-    "stock_detail.company_description_placeholder": "{{symbol}} ist ein weltweit führendes Technologieunternehmen, das Smartphones, Personal Computer, Tablets, Wearables und Zubehör entwickelt, herstellt und vertreibt.",
     "stock_detail.company_info.sector": "Sektor",
     "stock_detail.company_info.industry": "Branche",
     "stock_detail.company_info.market_cap": "Marktkapitalisierung",
     "stock_detail.company_info.pe_ratio": "KGV",
     "stock_detail.company_info.dividend_yield": "Dividendenrendite",
+    "stock_detail.company_description_placeholder": "{{symbol}} ist ein weltweit führendes Technologieunternehmen. Es zielt darauf ab, das Leben der Menschen durch innovative Produkte und Dienstleistungen zu bereichern.",
+    "stock_detail.error.no_symbol": "Kein Aktiensymbol angegeben.",
+
+    // Settings Screen
     "settings.title": "Einstellungen",
     "settings.language_settings": "Spracheinstellungen",
     "settings.legal_info": "Rechtliche Hinweise",
     "settings.privacy_policy": "Datenschutzrichtlinie",
     "settings.terms_of_service": "Nutzungsbedingungen",
     "settings.app_version": "App-Version",
+
+    // Language names
     "language.ja": "Japanisch",
     "language.en": "Englisch",
     "language.zh": "Chinesisch",
@@ -512,13 +641,28 @@ export const translations: Translations = {
     "language.hi": "Hindi",
   },
   pt: {
-    "home.title": "Bem-vindo ao Bridge",
-    "home.subtitle": "Reduzindo a distância entre investidores e a verdade",
+    // Common
+    "common.loading": "Carregando...",
+    "common.error_loading_data": "Ocorreu um erro ao carregar os dados.",
+    "common.disclaimer_badge": "Este aplicativo não é um conselho de investimento",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} min de atraso",
+    "common.realtime": "Tempo real",
+    "common.na": "N/A",
+    "common.trillion": "Trilhão",
+    "common.billion": "Bilhões",
+    "common.million": "Milhões",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "Zerar a distância entre investidores e a verdade",
+
+    // Auth
     "auth.login.title": "Entrar",
     "auth.signup.title": "Cadastrar",
     "auth.email_placeholder": "E-mail",
     "auth.password_placeholder": "Senha",
-    "auth.confirm_password_placeholder": "Confirmar Senha",
+    "auth.confirm_password_placeholder": "Confirmar senha",
     "auth.login_button": "Entrar",
     "auth.signup_button": "Cadastrar",
     "auth.or_separator": "Ou",
@@ -526,25 +670,17 @@ export const translations: Translations = {
     "auth.oauth_apple": "{{action}} com Apple",
     "auth.login_action": "Entrar",
     "auth.signup_action": "Cadastrar",
-    "auth.error.empty_fields": "Por favor, insira e-mail e senha.",
+    "auth.error.empty_fields": "Por favor, preencha todos os campos.",
     "auth.error.invalid_email": "Endereço de e-mail inválido.",
     "auth.error.password_mismatch": "As senhas não coincidem.",
     "auth.error.password_too_short": "A senha deve ter pelo menos 8 caracteres.",
-    "common.disclaimer_badge": "Este aplicativo não é um conselho de investimento. Os dados podem estar atrasados.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} minutos de atraso", // New key
-    "common.realtime": "Tempo real",
-    "common.na": "N/A",
-    "common.trillion": "Trilhão",
-    "common.billion": "Bilhões",
-    "common.million": "Milhões",
-    "common.loading": "Carregando...",
-    "common.error_loading_data": "Erro ao carregar os dados.",
+
+    // Portfolio Screen
     "portfolio.title": "Portfólio",
     "portfolio.my_portfolio": "Meu Portfólio",
-    "portfolio.summary.total_value": "Valor Total",
+    "portfolio.summary.total_value": "Valor Total do Portfólio",
     "portfolio.summary.total_gain_loss": "Ganho/Perda Total",
-    "portfolio.summary.total_gain_loss_percent": "Ganho/Perda Total (%)",
+    "portfolio.summary.total_gain_loss_percent": "% de Ganho/Perda Total",
     "portfolio.holdings": "Posições",
     "portfolio.stock_list.quantity": "Quantidade",
     "portfolio.stock_list.avg_price": "Preço Médio",
@@ -552,24 +688,35 @@ export const translations: Translations = {
     "portfolio.stock_list.change": "Variação",
     "portfolio.stock_list.market_value": "Valor de Mercado",
     "portfolio.stock_list.gain_loss": "Ganho/Perda",
-    "portfolio.stock_list.empty": "Nenhuma posição encontrada.",
+    "portfolio.stock_list.empty": "Nenhuma posição em seu portfólio.",
+
+    // Search Screen
+    "search.title": "Pesquisar Ações",
+    "search.placeholder": "Pesquisar por nome da ação ou símbolo",
+    "search.no_results": "Nenhum resultado de pesquisa encontrado.",
+
+    // Stock Detail Screen
     "stock_detail.title": "Detalhes da Ação",
-    "stock_detail.error.no_symbol": "Símbolo da ação não especificado.",
-    "stock_detail.chart_title": "Gráfico da Ação",
-    "stock_detail.chart_placeholder": "Área de Exibição do Gráfico",
+    "stock_detail.chart_title": "Gráfico de Preços",
+    "stock_detail.chart_placeholder": "O gráfico será exibido aqui",
     "stock_detail.company_info_title": "Informações da Empresa",
-    "stock_detail.company_description_placeholder": "{{symbol}} é uma empresa de tecnologia global líder que projeta, fabrica e comercializa smartphones, computadores pessoais, tablets, wearables e acessórios.",
     "stock_detail.company_info.sector": "Setor",
     "stock_detail.company_info.industry": "Indústria",
     "stock_detail.company_info.market_cap": "Capitalização de Mercado",
-    "stock_detail.company_info.pe_ratio": "Relação P/L",
+    "stock_detail.company_info.pe_ratio": "P/L",
     "stock_detail.company_info.dividend_yield": "Rendimento de Dividendo",
+    "stock_detail.company_description_placeholder": "{{symbol}} é uma empresa de tecnologia líder global. Ela visa enriquecer a vida das pessoas através de produtos e serviços inovadores.",
+    "stock_detail.error.no_symbol": "Nenhum símbolo de ação fornecido.",
+
+    // Settings Screen
     "settings.title": "Configurações",
     "settings.language_settings": "Configurações de Idioma",
     "settings.legal_info": "Informações Legais",
     "settings.privacy_policy": "Política de Privacidade",
     "settings.terms_of_service": "Termos de Serviço",
     "settings.app_version": "Versão do Aplicativo",
+
+    // Language names
     "language.ja": "Japonês",
     "language.en": "Inglês",
     "language.zh": "Chinês",
@@ -582,64 +729,82 @@ export const translations: Translations = {
     "language.hi": "Hindi",
   },
   ar: {
-    "home.title": "مرحباً بك في Bridge",
-    "home.subtitle": "تقليص المسافة بين المستثمرين والحقيقة",
-    "auth.login.title": "تسجيل الدخول",
-    "auth.signup.title": "التسجيل",
-    "auth.email_placeholder": "البريد الإلكتروني",
-    "auth.password_placeholder": "كلمة المرور",
-    "auth.confirm_password_placeholder": "تأكيد كلمة المرور",
-    "auth.login_button": "تسجيل الدخول",
-    "auth.signup_button": "التسجيل",
-    "auth.or_separator": "أو",
-    "auth.oauth_google": "{{action}} باستخدام جوجل",
-    "auth.oauth_apple": "{{action}} باستخدام أبل",
-    "auth.login_action": "تسجيل الدخول",
-    "auth.signup_action": "التسجيل",
-    "auth.error.empty_fields": "الرجاء إدخال البريد الإلكتروني وكلمة المرور.",
-    "auth.error.invalid_email": "عنوان بريد إلكتروني غير صالح.",
-    "auth.error.password_mismatch": "كلمات المرور غير متطابقة.",
-    "auth.error.password_too_short": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
-    "common.disclaimer_badge": "هذا التطبيق ليس نصيحة استثمارية. قد تتأخر البيانات.",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} دقيقة تأخير", // New key
-    "common.realtime": "في الوقت الحقيقي",
+    // Common
+    "common.loading": "جار التحميل...",
+    "common.error_loading_data": "حدث خطأ أثناء تحميل البيانات.",
+    "common.disclaimer_badge": "هذا التطبيق ليس نصيحة استثمارية",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "تأخير {{minutes}} دقيقة",
+    "common.realtime": "في الوقت الفعلي",
     "common.na": "غير متوفر",
     "common.trillion": "تريليون",
     "common.billion": "مليار",
     "common.million": "مليون",
-    "common.loading": "جار التحميل...",
-    "common.error_loading_data": "حدث خطأ أثناء تحميل البيانات.",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "تقليل المسافة بين المستثمرين والحقيقة إلى الصفر",
+
+    // Auth
+    "auth.login.title": "تسجيل الدخول",
+    "auth.signup.title": "إنشاء حساب",
+    "auth.email_placeholder": "البريد الإلكتروني",
+    "auth.password_placeholder": "كلمة المرور",
+    "auth.confirm_password_placeholder": "تأكيد كلمة المرور",
+    "auth.login_button": "تسجيل الدخول",
+    "auth.signup_button": "إنشاء حساب",
+    "auth.or_separator": "أو",
+    "auth.oauth_google": "{{action}} باستخدام جوجل",
+    "auth.oauth_apple": "{{action}} باستخدام أبل",
+    "auth.login_action": "تسجيل الدخول",
+    "auth.signup_action": "إنشاء حساب",
+    "auth.error.empty_fields": "الرجاء ملء جميع الحقول.",
+    "auth.error.invalid_email": "عنوان بريد إلكتروني غير صالح.",
+    "auth.error.password_mismatch": "كلمتا المرور غير متطابقتين.",
+    "auth.error.password_too_short": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+
+    // Portfolio Screen
     "portfolio.title": "المحفظة",
     "portfolio.my_portfolio": "محفظتي",
-    "portfolio.summary.total_value": "القيمة الإجمالية",
+    "portfolio.summary.total_value": "إجمالي قيمة المحفظة",
     "portfolio.summary.total_gain_loss": "إجمالي الربح/الخسارة",
-    "portfolio.summary.total_gain_loss_percent": "إجمالي الربح/الخسارة (%)",
+    "portfolio.summary.total_gain_loss_percent": "إجمالي الربح/الخسارة %",
     "portfolio.holdings": "المقتنيات",
     "portfolio.stock_list.quantity": "الكمية",
     "portfolio.stock_list.avg_price": "متوسط السعر",
     "portfolio.stock_list.current_price": "السعر الحالي",
-    "portfolio.stock_list.change": "التغير",
+    "portfolio.stock_list.change": "التغيير",
     "portfolio.stock_list.market_value": "القيمة السوقية",
     "portfolio.stock_list.gain_loss": "الربح/الخسارة",
-    "portfolio.stock_list.empty": "لا توجد مقتنيات.",
+    "portfolio.stock_list.empty": "لا توجد مقتنيات في محفظتك.",
+
+    // Search Screen
+    "search.title": "البحث عن الأسهم",
+    "search.placeholder": "البحث باسم السهم أو رمزه",
+    "search.no_results": "لم يتم العثور على نتائج بحث.",
+
+    // Stock Detail Screen
     "stock_detail.title": "تفاصيل السهم",
-    "stock_detail.error.no_symbol": "لم يتم تحديد رمز السهم.",
-    "stock_detail.chart_title": "مخطط الأسهم",
-    "stock_detail.chart_placeholder": "منطقة عرض المخطط",
+    "stock_detail.chart_title": "مخطط الأسعار",
+    "stock_detail.chart_placeholder": "سيتم عرض الرسم البياني هنا",
     "stock_detail.company_info_title": "معلومات الشركة",
-    "stock_detail.company_description_placeholder": "{{symbol}} هي شركة تكنولوجيا عالمية رائدة تقوم بتصميم وتصنيع وتسويق الهواتف الذكية وأجهزة الكمبيوتر الشخصية والأجهزة اللوحية والأجهزة القابلة للارتداء والملحقات.",
     "stock_detail.company_info.sector": "القطاع",
     "stock_detail.company_info.industry": "الصناعة",
     "stock_detail.company_info.market_cap": "القيمة السوقية",
     "stock_detail.company_info.pe_ratio": "نسبة السعر إلى الأرباح",
     "stock_detail.company_info.dividend_yield": "عائد الأرباح",
+    "stock_detail.company_description_placeholder": "{{symbol}} هي شركة تكنولوجيا رائدة عالميًا. تهدف إلى إثراء حياة الناس من خلال المنتجات والخدمات المبتكرة.",
+    "stock_detail.error.no_symbol": "لم يتم توفير رمز السهم.",
+
+    // Settings Screen
     "settings.title": "الإعدادات",
     "settings.language_settings": "إعدادات اللغة",
     "settings.legal_info": "المعلومات القانونية",
     "settings.privacy_policy": "سياسة الخصوصية",
     "settings.terms_of_service": "شروط الخدمة",
     "settings.app_version": "إصدار التطبيق",
+
+    // Language names
     "language.ja": "اليابانية",
     "language.en": "الإنجليزية",
     "language.zh": "الصينية",
@@ -652,39 +817,46 @@ export const translations: Translations = {
     "language.hi": "الهندية",
   },
   hi: {
-    "home.title": "ब्रिज में आपका स्वागत है",
-    "home.subtitle": "निवेशकों और सच्चाई के बीच की दूरी को शून्य करना",
-    "auth.login.title": "लॉगिन करें",
+    // Common
+    "common.loading": "लोड हो रहा है...",
+    "common.error_loading_data": "डेटा लोड करते समय एक त्रुटि हुई।",
+    "common.disclaimer_badge": "यह ऐप निवेश सलाह नहीं है",
+    "common.data_source": "{{source}} | {{time}} JST | {{delay}}",
+    "common.delay_minutes": "{{minutes}} मिनट की देरी",
+    "common.realtime": "रीयल-टाइम",
+    "common.na": "उपलब्ध नहीं",
+    "common.trillion": "ट्रिलियन",
+    "common.billion": "अरब",
+    "common.million": "मिलियन",
+
+    // Home Screen
+    "home.title": "Bridge",
+    "home.subtitle": "निवेशकों और सच्चाई के बीच की दूरी को शून्य करें",
+
+    // Auth
+    "auth.login.title": "लॉगिन",
     "auth.signup.title": "साइन अप करें",
     "auth.email_placeholder": "ईमेल",
     "auth.password_placeholder": "पासवर्ड",
     "auth.confirm_password_placeholder": "पासवर्ड की पुष्टि करें",
-    "auth.login_button": "लॉगिन करें",
+    "auth.login_button": "लॉगिन",
     "auth.signup_button": "साइन अप करें",
     "auth.or_separator": "या",
-    "auth.oauth_google": "Google से {{action}} करें",
-    "auth.oauth_apple": "Apple से {{action}} करें",
+    "auth.oauth_google": "Google के साथ {{action}} करें",
+    "auth.oauth_apple": "Apple के साथ {{action}} करें",
     "auth.login_action": "लॉगिन",
     "auth.signup_action": "साइन अप",
-    "auth.error.empty_fields": "कृपया ईमेल और पासवर्ड दर्ज करें।",
+    "auth.error.empty_fields": "कृपया सभी फ़ील्ड भरें।",
     "auth.error.invalid_email": "अमान्य ईमेल पता।",
     "auth.error.password_mismatch": "पासवर्ड मेल नहीं खाते।",
     "auth.error.password_too_short": "पासवर्ड कम से कम 8 वर्णों का होना चाहिए।",
-    "common.disclaimer_badge": "यह ऐप निवेश सलाह नहीं है। डेटा में देरी हो सकती है।",
-    "common.data_source": "{{source}} | {{time}} | {{delay}}", // Removed JST
-    "common.delay_minutes": "{{minutes}} मिनट की देरी", // New key
-    "common.realtime": "वास्तविक समय",
-    "common.na": "उपलब्ध नहीं",
-    "common.trillion": "ट्रिलियन",
-    "common.billion": "बिलियन",
-    "common.million": "मिलियन",
-    "common.loading": "लोड हो रहा है...",
-    "common.error_loading_data": "डेटा लोड करते समय त्रुटि हुई।",
+
+    // Portfolio Screen
     "portfolio.title": "पोर्टफोलियो",
     "portfolio.my_portfolio": "मेरा पोर्टफोलियो",
-    "portfolio.summary.total_value": "कुल मूल्य",
+    "portfolio.summary.total_value": "कुल पोर्टफोलियो मूल्य",
     "portfolio.summary.total_gain_loss": "कुल लाभ/हानि",
-    "portfolio.summary.total_gain_loss_percent": "कुल लाभ/हानि (%)",
+    "portfolio.summary.total_gain_loss_percent": "कुल लाभ/हानि %",
     "portfolio.holdings": "होल्डिंग्स",
     "portfolio.stock_list.quantity": "मात्रा",
     "portfolio.stock_list.avg_price": "औसत मूल्य",
@@ -692,24 +864,35 @@ export const translations: Translations = {
     "portfolio.stock_list.change": "बदलाव",
     "portfolio.stock_list.market_value": "बाजार मूल्य",
     "portfolio.stock_list.gain_loss": "लाभ/हानि",
-    "portfolio.stock_list.empty": "कोई होल्डिंग्स नहीं मिलीं।",
+    "portfolio.stock_list.empty": "आपके पोर्टफोलियो में कोई होल्डिंग्स नहीं हैं।",
+
+    // Search Screen
+    "search.title": "स्टॉक खोजें",
+    "search.placeholder": "स्टॉक नाम या टिकर प्रतीक द्वारा खोजें",
+    "search.no_results": "कोई खोज परिणाम नहीं मिला।",
+
+    // Stock Detail Screen
     "stock_detail.title": "स्टॉक विवरण",
-    "stock_detail.error.no_symbol": "स्टॉक प्रतीक निर्दिष्ट नहीं है।",
-    "stock_detail.chart_title": "स्टॉक चार्ट",
-    "stock_detail.chart_placeholder": "चार्ट प्रदर्शन क्षेत्र",
+    "stock_detail.chart_title": "मूल्य चार्ट",
+    "stock_detail.chart_placeholder": "चार्ट यहां प्रदर्शित होगा",
     "stock_detail.company_info_title": "कंपनी की जानकारी",
-    "stock_detail.company_description_placeholder": "{{symbol}} एक अग्रणी वैश्विक प्रौद्योगिकी कंपनी है जो स्मार्टफोन, पर्सनल कंप्यूटर, टैबलेट, वियरेबल्स और एक्सेसरीज का डिजाइन, निर्माण और विपणन करती है।",
     "stock_detail.company_info.sector": "सेक्टर",
     "stock_detail.company_info.industry": "उद्योग",
     "stock_detail.company_info.market_cap": "बाजार पूंजीकरण",
     "stock_detail.company_info.pe_ratio": "पी/ई अनुपात",
     "stock_detail.company_info.dividend_yield": "लाभांश उपज",
+    "stock_detail.company_description_placeholder": "{{symbol}} विश्व स्तर पर एक अग्रणी प्रौद्योगिकी कंपनी है। इसका उद्देश्य नवीन उत्पादों और सेवाओं के माध्यम से लोगों के जीवन को समृद्ध बनाना है।",
+    "stock_detail.error.no_symbol": "कोई स्टॉक प्रतीक प्रदान नहीं किया गया।",
+
+    // Settings Screen
     "settings.title": "सेटिंग्स",
     "settings.language_settings": "भाषा सेटिंग्स",
     "settings.legal_info": "कानूनी जानकारी",
     "settings.privacy_policy": "गोपनीयता नीति",
     "settings.terms_of_service": "सेवा की शर्तें",
     "settings.app_version": "ऐप संस्करण",
+
+    // Language names
     "language.ja": "जापानी",
     "language.en": "अंग्रेजी",
     "language.zh": "चीनी",
@@ -722,5 +905,4 @@ export const translations: Translations = {
     "language.hi": "हिंदी",
   },
 };
-
 

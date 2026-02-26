@@ -101,6 +101,9 @@ export const translations: Translations = {
     "language.pt": "Português",
     "language.ar": "العربية",
     "language.hi": "हिन्दी",
+    "search.title": "検索",
+    "search.placeholder": "銘柄名またはシンボルを検索",
+    "search.no_results": "検索結果が見つかりませんでした。",
   },
   en: {
     "home.title": "Welcome to Bridge",
@@ -171,6 +174,9 @@ export const translations: Translations = {
     "language.pt": "Portuguese",
     "language.ar": "Arabic",
     "language.hi": "Hindi",
+    "search.title": "Search",
+    "search.placeholder": "Search by stock name or symbol",
+    "search.no_results": "No search results found.",
   },
   zh: {
     "home.title": "欢迎来到 Bridge",
@@ -241,6 +247,9 @@ export const translations: Translations = {
     "language.pt": "葡萄牙语",
     "language.ar": "阿拉伯语",
     "language.hi": "印地语",
+    "search.title": "搜索",
+    "search.placeholder": "按股票名称或代码搜索",
+    "search.no_results": "未找到搜索结果。",
   },
   ko: {
     "home.title": "Bridge에 오신 것을 환영합니다",
@@ -311,6 +320,9 @@ export const translations: Translations = {
     "language.pt": "포르투갈어",
     "language.ar": "아랍어",
     "language.hi": "힌디어",
+    "search.title": "검색",
+    "search.placeholder": "종목명 또는 심볼 검색",
+    "search.no_results": "검색 결과가 없습니다.",
   },
   es: {
     "home.title": "Bienvenido a Bridge",
@@ -381,6 +393,9 @@ export const translations: Translations = {
     "language.pt": "Portugués",
     "language.ar": "Árabe",
     "language.hi": "Hindi",
+    "search.title": "Buscar",
+    "search.placeholder": "Buscar por nombre o símbolo de acción",
+    "search.no_results": "No se encontraron resultados de búsqueda.",
   },
   fr: {
     "home.title": "Bienvenue sur Bridge",
@@ -448,9 +463,12 @@ export const translations: Translations = {
     "language.es": "Espagnol",
     "language.fr": "Français",
     "language.de": "Allemand",
-    "language.pt": "Portugués",
+    "language.pt": "Portugues",
     "language.ar": "Arabe",
     "language.hi": "Hindi",
+    "search.title": "Rechercher",
+    "search.placeholder": "Rechercher par nom ou symbole d'action",
+    "search.no_results": "Aucun résultat de recherche trouvé.",
   },
   de: {
     "home.title": "Willkommen bei Bridge",
@@ -518,9 +536,12 @@ export const translations: Translations = {
     "language.es": "Spanisch",
     "language.fr": "Französisch",
     "language.de": "Deutsch",
-    "language.pt": "Portugiesisch",
+    "language.pt": "Portugues",
     "language.ar": "Arabisch",
     "language.hi": "Hindi",
+    "search.title": "Suchen",
+    "search.placeholder": "Nach Aktiennamen oder Symbol suchen",
+    "search.no_results": "Keine Suchergebnisse gefunden.",
   },
   pt: {
     "home.title": "Bem-vindo ao Bridge",
@@ -591,6 +612,9 @@ export const translations: Translations = {
     "language.pt": "Português",
     "language.ar": "Árabe",
     "language.hi": "Hindi",
+    "search.title": "Pesquisar",
+    "search.placeholder": "Pesquisar por nome ou símbolo da ação",
+    "search.no_results": "Nenhum resultado de pesquisa encontrado.",
   },
   ar: {
     "home.title": "مرحباً بك في Bridge",
@@ -661,6 +685,9 @@ export const translations: Translations = {
     "language.pt": "البرتغالية",
     "language.ar": "العربية",
     "language.hi": "الهندية",
+    "search.title": "بحث",
+    "search.placeholder": "البحث عن طريق اسم السهم أو الرمز",
+    "search.no_results": "لم يتم العثور على نتائج بحث.",
   },
   hi: {
     "home.title": "ब्रिज में आपका स्वागत है",
@@ -731,6 +758,10 @@ export const translations: Translations = {
     "language.pt": "पुर्तगाली",
     "language.ar": "अरबी",
     "language.hi": "हिंदी",
+    "search.title": "खोज",
+    "search.placeholder": "स्टॉक नाम या प्रतीक द्वारा खोजें",
+    "search.no_results": "कोई खोज परिणाम नहीं मिला।",
   },
 };
+
 

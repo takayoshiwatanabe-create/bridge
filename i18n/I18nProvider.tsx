@@ -1,13 +1,12 @@
-import React, { ReactNode, useState, useEffect, useCallback } from "react";
+import React, { ReactNode, useState, useEffect, useCallback, useMemo } from "react";
 import { I18nContext } from "./I18nContext";
 import * as Localization from "expo-localization";
-import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations"; // Import SUPPORTED_LANGUAGES
-import { createTranslator, createNumberFormatter, createDateTimeFormatter } from "./index";
+import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations";
+import { I18nManager } from "react-native";
 
 function getInitialLanguage(): Language {
   try {
     const locales = Localization.getLocales();
-    // Ensure languageCode is treated as a string and checked against SUPPORTED_LANGUAGES
     const deviceLang = locales[0]?.languageCode;
     if (deviceLang && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLang)) {
       return deviceLang as Language;
@@ -18,7 +17,6 @@ function getInitialLanguage(): Language {
   }
 }
 
-// This function will be called from LanguageSelector to change the app language
 let _setAppLanguage: ((lang: Language) => void) | null = null;
 export function setAppLanguage(lang: Language) {
   if (_setAppLanguage) {
@@ -29,40 +27,79 @@ export function setAppLanguage(lang: Language) {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Language>(getInitialLanguage());
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(getInitialLanguage());
+  const [isRTL, setIsRTL] = useState<boolean>(false);
 
-  // Expose setLang function to the global scope or a module-level variable
-  // so it can be called from outside the component tree (e.g., LanguageSelector)
   useEffect(() => {
-    _setAppLanguage = setLang;
+    _setAppLanguage = setLanguage;
     return () => {
-      _setAppLanguage = null; // Clean up on unmount
+      _setAppLanguage = null;
     };
   }, []);
 
   useEffect(() => {
-    // This effect handles initial language setting and could be extended for dynamic changes.
-    // For now, it ensures the initial language is set.
-    const handleLocalizationChange = () => {
-      setLang(getInitialLanguage());
-    };
+    updateRTL(currentLanguage);
+  }, [currentLanguage]);
 
-    // In a real app, you might listen to Localization.addEventListener for dynamic changes
-    // For this project, we assume language is set once on app load or user preference.
-    // Localization.addEventListener('change', handleLocalizationChange); // Uncomment for dynamic updates
-    // return () => Localization.removeEventListener('change', handleLocalizationChange);
+  const updateRTL = (lang: Language) => {
+    const rtl = lang === "ar";
+    I18nManager.forceRTL(rtl);
+    setIsRTL(rtl);
+  };
+
+  const setLanguage = useCallback((lang: Language) => {
+    if (SUPPORTED_LANGUAGES.includes(lang)) {
+      setCurrentLanguage(lang);
+    } else {
+      console.warn(`Language ${lang} is not supported.`);
+    }
   }, []);
 
-  const t = useCallback(createTranslator(lang), [lang]);
-  const isRTL = ["ar"].includes(lang);
-  const numberFormatter = useCallback(createNumberFormatter(lang), [lang]);
-  const dateTimeFormatter = useCallback(createDateTimeFormatter(lang), [lang]);
+  const t = useCallback((key: string, variables?: { [key: string]: string | number }): string => {
+    let translation = translations[currentLanguage]?.[key] || key;
+
+    if (variables) {
+      for (const [varKey, varValue] of Object.entries(variables)) {
+        translation = translation.replace(
+          new RegExp(`{{\\s*${varKey}\\s*}}`, "g"),
+          String(varValue)
+        );
+      }
+    }
+    return translation;
+  }, [currentLanguage]);
+
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(currentLanguage),
+    [currentLanguage]
+  );
+
+  const dateTimeFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(currentLanguage, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      }),
+    [currentLanguage]
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      t,
+      currentLanguage,
+      setLanguage,
+      isRTL,
+      numberFormatter,
+      dateTimeFormatter,
+    }),
+    [t, currentLanguage, setLanguage, isRTL, numberFormatter, dateTimeFormatter]
+  );
 
   return (
-    <I18nContext.Provider value={{ lang, t, isRTL, numberFormatter, dateTimeFormatter }}>
-      {children}
-    </I18nContext.Provider>
+    <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>
   );
 }
-
-

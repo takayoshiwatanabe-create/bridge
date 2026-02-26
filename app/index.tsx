@@ -33,23 +33,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
+    backgroundColor: "#f5f5f5", // Light background
   },
   title: {
-    fontSize: 32,
+    fontSize: 32, // H1: 32px, Bold
     fontWeight: "bold",
     marginBottom: 10,
+    color: "#212529", // Text Primary
   },
   subtitle: {
     marginTop: 16,
     fontSize: 18,
-    color: "#666",
+    color: "#6c757d", // Text Secondary
     marginBottom: 30,
   },
   link: {
     marginTop: 15,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "#007bff",
+    backgroundColor: "#007bff", // Primary color
     borderRadius: 8,
   },
   linkText: {

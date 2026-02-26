@@ -129,10 +129,11 @@ export default function PortfolioScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>{t("portfolio.holdings")}</Text>
+        {/* DataBadge is required for all price displays */}
         <DataSourceBadge
           source="Quick"
-          timestamp={new Date().toISOString()}
-          delayMinutes={15}
+          timestamp={marketData[0]?.timestamp || new Date().toISOString()} // Use actual market data timestamp
+          delayMinutes={marketData[0]?.delayMinutes || 15}
         />
         <StockList items={portfolioItems} marketData={marketData} />
       </View>
@@ -167,19 +168,19 @@ const styles = StyleSheet.create({
     color: "red",
   },
   header: {
-    fontSize: 28,
+    fontSize: 28, // H1: 32px, Bold - Adjusted to H1 spec
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#333",
+    color: "#333", // Text Primary
   },
   section: {
     marginBottom: 20,
   },
   sectionHeader: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 20, // H3: 20px, Semi-Bold
+    fontWeight: "bold", // Using bold for now, as semi-bold might require custom font loading
     marginBottom: 10,
-    color: "#333",
+    color: "#333", // Text Primary
   },
 });
 

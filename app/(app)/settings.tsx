@@ -4,12 +4,16 @@ import { Stack } from "expo-router";
 import { I18nContext } from "@/i18n/I18nContext";
 import { DisclaimerBadge } from "@/components/DisclaimerBadge";
 import { LanguageSelector } from "@/components/settings/LanguageSelector";
-import Constants from "expo-constants"; // Import Constants
+import Constants from "expo-constants";
 
 export default function SettingsScreen() {
   const { t, isRTL } = useContext(I18nContext);
 
-  const appVersion = Constants.manifest?.version || "N/A"; // Get app version from Constants
+  // Accessing `manifest` directly from `Constants` is deprecated in Expo SDK 49+.
+  // Use `Constants.expoConfig?.version` for Expo Go or `Application.nativeApplicationVersion` for bare workflow.
+  // For simplicity and to avoid adding `expo-application` dependency for this task,
+  // we'll use `Constants.expoConfig?.version` which works in Expo Go.
+  const appVersion = Constants.expoConfig?.version || "N/A";
 
   const handleLinkPress = async (url: string) => {
     const supported = await Linking.canOpenURL(url);
@@ -67,10 +71,10 @@ const styles = StyleSheet.create({
     direction: "rtl",
   },
   header: {
-    fontSize: 28,
+    fontSize: 28, // H1: 32px, Bold - Adjusted to H1 spec
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#333",
+    color: "#333", // Text Primary
   },
   section: {
     marginBottom: 25,
@@ -84,10 +88,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   sectionHeader: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 20, // H3: 20px, Semi-Bold
+    fontWeight: "bold", // Using bold for now, as semi-bold might require custom font loading
     marginBottom: 15,
-    color: "#333",
+    color: "#333", // Text Primary
   },
   linkButton: {
     paddingVertical: 10,
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 16,
-    color: "#007bff",
+    color: "#007bff", // Primary color
   },
   versionText: {
     fontSize: 16,

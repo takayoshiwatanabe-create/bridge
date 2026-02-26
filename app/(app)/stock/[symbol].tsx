@@ -172,10 +172,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionHeader: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 20, // H3: 20px, Semi-Bold
+    fontWeight: "bold", // Using bold for now, as semi-bold might require custom font loading
     marginBottom: 10,
-    color: "#333",
+    color: "#333", // Text Primary
   },
   chartPlaceholder: {
     backgroundColor: "#e0e0e0",

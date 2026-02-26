@@ -1,8 +1,8 @@
 import { Tabs } from "expo-router";
 import React, { useContext } from "react";
 import { I18nContext } from "@/i18n/I18nContext";
-import { FontAwesome } from "@expo/vector-icons";
-import { Platform } from "react-native";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { StyleSheet } from "react-native";
 
 export default function AppLayout() {
   const { t, isRTL } = useContext(I18nContext);
@@ -11,15 +11,10 @@ export default function AppLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          direction: isRTL ? "rtl" : "ltr",
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "bold",
-        },
-        tabBarActiveTintColor: "#007bff",
-        tabBarInactiveTintColor: "#888",
+        tabBarStyle: [styles.tabBar, isRTL && styles.tabBarRTL],
+        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarActiveTintColor: "#007bff", // Primary color
+        tabBarInactiveTintColor: "#6c757d", // Secondary color
       }}
     >
       <Tabs.Screen
@@ -27,12 +22,16 @@ export default function AppLayout() {
         options={{
           title: t("portfolio.title"),
           tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="briefcase"
-              size={24}
-              color={color}
-              style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
-            />
+            <TabBarIcon name="briefcase" color={color} isRTL={isRTL} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: t("search.title"),
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="search" color={color} isRTL={isRTL} />
           ),
         }}
       />
@@ -41,12 +40,7 @@ export default function AppLayout() {
         options={{
           title: t("settings.title"),
           tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="cog"
-              size={24}
-              color={color}
-              style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
-            />
+            <TabBarIcon name="cog" color={color} isRTL={isRTL} />
           ),
         }}
       />
@@ -61,3 +55,23 @@ export default function AppLayout() {
   );
 }
 
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: "#f8f9fa", // Light background
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
+    height: 90, // Increased height for better touch targets and label visibility
+    paddingBottom: 20, // Padding for safe area on newer phones
+    paddingTop: 10,
+  },
+  tabBarRTL: {
+    // For RTL, we need to ensure the direction is set on the tab bar itself
+    // and individual items are handled by TabBarIcon if needed.
+    // React Native's StyleSheet.create handles `direction` property correctly.
+    direction: "rtl",
+  },
+  tabBarLabel: {
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+});

@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
+import { FontAwesome } from "@expo/vector-icons"; // Import FontAwesome for icons
 
 interface AuthFormProps {
   type: "login" | "signup";
@@ -104,6 +105,7 @@ export function AuthForm({ type, onSubmit, onOAuthLogin }: AuthFormProps) {
           style={[styles.oauthButton, styles.googleButton]}
           onPress={() => onOAuthLogin("Google")}
         >
+          <FontAwesome name="google" size={20} color="#fff" />
           <Text style={styles.oauthButtonText}>
             {t("auth.oauth_google", { action: isSignup ? t("auth.signup_action") : t("auth.login_action") })}
           </Text>
@@ -112,6 +114,7 @@ export function AuthForm({ type, onSubmit, onOAuthLogin }: AuthFormProps) {
           style={[styles.oauthButton, styles.appleButton]}
           onPress={() => onOAuthLogin("Apple")}
         >
+          <FontAwesome name="apple" size={20} color="#fff" />
           <Text style={styles.oauthButtonText}>
             {t("auth.oauth_apple", { action: isSignup ? t("auth.signup_action") : t("auth.login_action") })}
           </Text>

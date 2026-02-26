@@ -21,14 +21,14 @@ export function PortfolioSummary({ summary }: PortfolioSummaryProps) {
 
       <View style={styles.row}>
         <Text style={styles.label}>{t("portfolio.summary.total_gain_loss")}</Text>
-        <Text style={[styles.value, { color: gainLossColor }]}>
+        <Text style={[styles.valueSmall, { color: gainLossColor }]}>
           {numberFormatter.format(summary.totalGainLoss)}
         </Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{t("portfolio.summary.total_gain_loss_percent")}</Text>
-        <Text style={[styles.value, { color: gainLossColor }]}>
+        <Text style={[styles.valueSmall, { color: gainLossColor }]}>
           {numberFormatter.format(summary.totalGainLossPercent)}%
         </Text>
       </View>
@@ -57,10 +57,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   value: {
-    fontSize: 24,
+    fontSize: 24, // H2 style
     fontWeight: "bold",
-    color: "#333",
+    color: "#333", // Primary Text Color
     marginBottom: 15,
+  },
+  valueSmall: {
+    fontSize: 20, // H3 style
+    fontWeight: "bold", // Using bold for now, as semi-bold might require custom font loading
+    color: "#333", // Primary Text Color (will be overridden by gainLossColor)
   },
   row: {
     flexDirection: "row",

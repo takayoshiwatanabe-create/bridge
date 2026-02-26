@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { I18nContext } from "@/i18n/I18nContext";
 import { Instrument, MarketData } from "@/types";
-import { DataBadge } from "@/components/ui/DataBadge"; // Corrected import path to DataBadge
 
 interface StockHeaderProps {
   instrument: Instrument;
@@ -65,4 +64,3 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-

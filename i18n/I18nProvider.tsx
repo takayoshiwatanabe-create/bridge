@@ -1,80 +1,80 @@
-import React, { ReactNode, useState, useEffect, useCallback, useMemo } from "react";
-import { I18nContext } from "./I18nContext";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useMemo,
+  ReactNode,
+} from "react";
 import * as Localization from "expo-localization";
-import { translations, type Language, SUPPORTED_LANGUAGES } from "./translations";
-import { I18nManager } from "react-native";
+import { I18nContext } from "./I18nContext"; // Import the context type
+import {
+  translations,
+  Language,
+  SUPPORTED_LANGUAGES,
+  RTL_LANGUAGES,
+} from "./translations";
 
-function getInitialLanguage(): Language {
-  try {
-    const locales = Localization.getLocales();
-    const deviceLang = locales[0]?.languageCode;
-    if (deviceLang && (SUPPORTED_LANGUAGES as readonly string[]).includes(deviceLang)) {
-      return deviceLang as Language;
-    }
-    return "ja";
-  } catch {
-    return "ja";
-  }
+interface I18nProviderProps {
+  children: ReactNode;
 }
 
-let _setAppLanguage: ((lang: Language) => void) | null = null;
-export function setAppLanguage(lang: Language) {
-  if (_setAppLanguage) {
-    _setAppLanguage(lang);
-  } else {
-    console.warn("setAppLanguage called before I18nProvider was fully initialized.");
-  }
-}
+// Global variable to hold the current language, used by setAppLanguage
+let appLanguage: Language = "ja"; // Default to Japanese
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>(getInitialLanguage());
-  const [isRTL, setIsRTL] = useState<boolean>(false);
+// Function to set the app language from outside the component
+export const setAppLanguage = (lang: Language) => {
+  appLanguage = lang;
+  // In a real app, you might want to trigger a re-render or update a global state here
+  // For now, components relying on `useContext(I18nContext)` will re-render
+  // when the `I18nProvider`'s state changes.
+};
 
-  // Memoize setLanguage to avoid unnecessary re-renders in children
-  const memoizedSetLanguage = useCallback((lang: Language) => {
-    if ((SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
-      setCurrentLanguage(lang);
-    } else {
-      console.warn(`Language ${lang} is not supported.`);
-    }
+export function I18nProvider({ children }: I18nProviderProps) {
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(appLanguage);
+
+  useEffect(() => {
+    // Attempt to get device language, fallback to 'ja'
+    const deviceLanguage = Localization.getLocales()[0]?.languageCode as Language;
+    const initialLanguage =
+      (deviceLanguage && SUPPORTED_LANGUAGES.includes(deviceLanguage))
+        ? deviceLanguage
+        : "ja";
+    setCurrentLanguage(initialLanguage);
+    appLanguage = initialLanguage; // Update global variable
   }, []);
 
+  // Update the global appLanguage when currentLanguage state changes
   useEffect(() => {
-    _setAppLanguage = memoizedSetLanguage;
-    return () => {
-      _setAppLanguage = null;
-    };
-  }, [memoizedSetLanguage]);
-
-  useEffect(() => {
-    updateRTL(currentLanguage);
+    appLanguage = currentLanguage;
   }, [currentLanguage]);
 
-  const updateRTL = (lang: Language) => {
-    const rtl = lang === "ar";
-    I18nManager.forceRTL(rtl);
-    // Forcing RTL might require a reload to fully apply in some native contexts.
-    // For React Native components, setting `direction: 'rtl'` in styles is often sufficient
-    // after `I18nManager.forceRTL` has been called at app startup.
-    setIsRTL(rtl);
-  };
+  const t = useMemo(
+    () =>
+      (key: string, vars?: Record<string, string | number>): string => {
+        let translated = translations[currentLanguage]?.[key] || key;
+        if (vars) {
+          for (const [varKey, varValue] of Object.entries(vars)) {
+            translated = translated.replace(`{{${varKey}}}`, String(varValue));
+          }
+        }
+        return translated;
+      },
+    [currentLanguage]
+  );
 
-  const t = useCallback((key: string, variables?: { [key: string]: string | number }): string => {
-    let translation = translations[currentLanguage]?.[key] || key;
-
-    if (variables) {
-      for (const [varKey, varValue] of Object.entries(variables)) {
-        translation = translation.replace(
-          new RegExp(`{{\\s*${varKey}\\s*}}`, "g"),
-          String(varValue)
-        );
-      }
-    }
-    return translation;
-  }, [currentLanguage]);
+  const isRTL = useMemo(
+    () => RTL_LANGUAGES.includes(currentLanguage),
+    [currentLanguage]
+  );
 
   const numberFormatter = useMemo(
-    () => new Intl.NumberFormat(currentLanguage),
+    () =>
+      new Intl.NumberFormat(currentLanguage, {
+        style: "currency",
+        currency: currentLanguage === "ja" ? "JPY" : "USD", // Example: JPY for Japanese, USD for others
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }),
     [currentLanguage]
   );
 
@@ -82,25 +82,26 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () =>
       new Intl.DateTimeFormat(currentLanguage, {
         year: "numeric",
-        month: "short",
+        month: "numeric",
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
         hour12: false,
+        timeZone: "Asia/Tokyo", // Always display in JST as per spec
       }),
     [currentLanguage]
   );
 
   const contextValue = useMemo(
     () => ({
-      t,
       currentLanguage,
-      setLanguage: memoizedSetLanguage, // Use the memoized setter
+      t,
+      setLanguage: setCurrentLanguage,
       isRTL,
       numberFormatter,
       dateTimeFormatter,
     }),
-    [t, currentLanguage, memoizedSetLanguage, isRTL, numberFormatter, dateTimeFormatter]
+    [currentLanguage, t, isRTL, numberFormatter, dateTimeFormatter]
   );
 
   return (
